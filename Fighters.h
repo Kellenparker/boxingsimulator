@@ -43,6 +43,9 @@ class Fighters
 	//1 - 100
 	int reach, height, stamina, health, power, speed, timing, defense, footwork;
 
+	//change array
+	int changes[7];
+
 
 	// --FUNCTIONS--
 
@@ -92,5 +95,8 @@ public:
 
 	// PrintFighter: Prints fighter information to console
 	void PrintFighter();
+	
+	// vPrintFighter: Provides a verbose printout of the fighter
+	void vPringFighter();
 };
 

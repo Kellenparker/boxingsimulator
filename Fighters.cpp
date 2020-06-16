@@ -200,7 +200,7 @@ std::string Fighters::SelectName(bool last)
 	if (!last)
 	{
 		//first name
-		names.open("/Users/kellenparker/Documents/Programming projects/fightsim/fightsim/resources/firstnames.txt");
+		names.open("resources/firstnames.txt");
 		if (names.is_open())
 		{
 			for (int i = 0; i < rng::randd(0, 1219, false); i++)
@@ -213,7 +213,7 @@ std::string Fighters::SelectName(bool last)
 	else
 	{
 		//last names
-		names.open("/Users/kellenparker/Documents/Programming projects/fightsim/fightsim/resources/lastnames.txt");
+		names.open("resources/lastnames.txt");
 		if (names.is_open())
 		{
 			for (int i = 0; i < rng::randd(0, 88799, false); i++)
@@ -251,17 +251,68 @@ int Fighters::DeterminePeak()
 
 void Fighters::Progress()
 {
+
+	for (int i = 0; i <= 7; i++) 
+		Fighters::changes[i] = 0;
+
+	int current = 0;
+	float amb = (Fighters::motivation / 100.0) + (Fighters::xfac / 100.0);
+	std::cout << amb << std::endl;
+
 	if (Fighters::peakStatus == 0) {
 
+		//--phys
+
+		//stamina
+		current = ((amb / 1.5) * pow(rng::randd(0.0, 1.0, false), 3.0));
+		if ((current > 0 && Fighters::stamina >= 100) || ((Fighters::stamina + current) >= 100))
+			Fighters::stamina = 100;
+		else if ((Fighters::stamina + current) >= 100) {
+			changes[0] = 100 - Fighters::stamina;
+			Fighters::stamina = 100;
+		}
+		else {
+			Fighters::stamina += current;
+			changes[0] = current;
+		}
+		
+		//speed
+
+
+		//--mental
+
+
+
+		//ambition
 
 
 	}
 	else if (Fighters::peakStatus == 1) {
 
+		//phys
+
+
+
+		//mental
+
+
+
+		//ambition
+
 
 
 	}
 	else if (Fighters::peakStatus == 2) {
+
+		//phys
+
+
+
+		//mental
+
+
+
+		//ambition
 
 
 
@@ -431,6 +482,11 @@ void Fighters::PrintFighter()
 
 	std::cout << Fighters::wins << "-" << Fighters::losses;
 	std::cout << "-" << Fighters::draws << std::endl;
+}
+
+void Fighters::vPringFighter()
+{
+	 
 }
 
 Fighters::~Fighters()

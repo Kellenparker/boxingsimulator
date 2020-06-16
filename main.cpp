@@ -26,7 +26,7 @@ int main()
 			std::cout << getMonth(MONTH) << " " << YEAR << std::endl;
 
 			featherWeight.IncrementAge();
-			//featherWeight.ProgressClass();
+			featherWeight.ProgressClass();
 		}
 		YEAR++;
 		std::cin.get();

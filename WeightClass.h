@@ -3,7 +3,7 @@
 class WeightClass
 {
 private:
-    static const int NUMFIGHTERS = 10;
+    static const int NUMFIGHTERS = 5;
 
 public:
 

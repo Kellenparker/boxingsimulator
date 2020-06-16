@@ -147,7 +147,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Fighters.h" />
-    <ClInclude Include="LOG.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="RNG.h" />
     <ClInclude Include="Roster.h" />
