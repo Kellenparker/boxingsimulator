@@ -277,44 +277,247 @@ void Fighters::Progress()
 		}
 		
 		//speed
-
+		current = ((amb / 1.5) * pow(rng::randd(0.0, 1.0, false), 3.0));
+		if ((current > 0 && Fighters::speed >= 100) || ((Fighters::speed + current) >= 100))
+			Fighters::speed = 100;
+		else if ((Fighters::speed + current) >= 100) {
+			changes[1] = 100 - Fighters::speed;
+			Fighters::speed = 100;
+		}
+		else {
+			Fighters::speed += current;
+			changes[1] = current;
+		}
 
 		//--mental
+		
+		//timing
+		current = ((amb / .75) * pow(rng::randd(0.0, 1.0, false), 3.0));
+		if ((current > 0 && Fighters::timing >= 100) || ((Fighters::timing + current) >= 100))
+			Fighters::timing = 100;
+		else if ((Fighters::timing + current) >= 100) {
+			changes[3] = 100 - Fighters::timing;
+			Fighters::timing = 100;
+		}
+		else {
+			Fighters::timing += current;
+			changes[3] = current;
+		}
 
+		//defense
+		current = ((amb / .75) * pow(rng::randd(0.0, 1.0, false), 3.0));
+		if ((current > 0 && Fighters::defense >= 100) || ((Fighters::defense + current) >= 100))
+			Fighters::defense = 100;
+		else if ((Fighters::defense + current) >= 100) {
+			changes[4] = 100 - Fighters::defense;
+			Fighters::defense = 100;
+		}
+		else {
+			Fighters::defense += current;
+			changes[4] = current;
+		}
 
+		//footwork
+		current = ((amb / .75) * pow(rng::randd(0.0, 1.0, false), 3.0));
+		if ((current > 0 && Fighters::footwork >= 100) || ((Fighters::footwork + current) >= 100))
+			Fighters::footwork = 100;
+		else if ((Fighters::footwork + current) >= 100) {
+			changes[5] = 100 - Fighters::footwork;
+			Fighters::footwork = 100;
+		}
+		else {
+			Fighters::footwork += current;
+			changes[5] = current;
+		}
 
-		//ambition
+		//--ambition
 
+		//motivation
+		current = ((.8/1.0) * pow(rng::randd(-1.0, 1.0, false), 3.0));
+		if ((current > 0 && Fighters::motivation >= 100) || ((Fighters::motivation + current) >= 100))
+			Fighters::motivation = 100;
+		else if ((Fighters::motivation + current) >= 100) {
+			changes[6] = 100 - Fighters::motivation;
+			Fighters::motivation = 100;
+		}
+		else {
+			Fighters::motivation += current;
+			changes[6] = current;
+		}
 
 	}
 	else if (Fighters::peakStatus == 1) {
 
-		//phys
+		//--phys
 
+		//stamina
+		current = ((.75/amb) * pow(rng::randd(-1.0, 1.0, false), 3.0));
+		if ((current > 0 && Fighters::stamina >= 100) || ((Fighters::stamina + current) >= 100))
+			Fighters::stamina = 100;
+		else if ((Fighters::stamina + current) >= 100) {
+			changes[0] = 100 - Fighters::stamina;
+			Fighters::stamina = 100;
+		}
+		else {
+			Fighters::stamina += current;
+			changes[0] = current;
+		}
 
+		//speed
+		current = ((.75/amb) * pow(rng::randd(-1.0, 0.0, false), 3.0));
+		if ((current > 0 && Fighters::speed >= 100) || ((Fighters::speed + current) >= 100))
+			Fighters::speed = 100;
+		else if ((Fighters::speed + current) >= 100) {
+			changes[1] = 100 - Fighters::speed;
+			Fighters::speed = 100;
+		}
+		else {
+			Fighters::speed += current;
+			changes[1] = current;
+		}
 
-		//mental
+		//--mental
 
+		//timing
+		current = ((amb / 1.5) * pow(rng::randd(0.0, 1.0, false), 3.0));
+		if ((current > 0 && Fighters::timing >= 100) || ((Fighters::timing + current) >= 100))
+			Fighters::timing = 100;
+		else if ((Fighters::timing + current) >= 100) {
+			changes[3] = 100 - Fighters::timing;
+			Fighters::timing = 100;
+		}
+		else {
+			Fighters::timing += current;
+			changes[3] = current;
+		}
 
+		//defense
+		current = ((amb / 1.5) * pow(rng::randd(0.0, 1.0, false), 3.0));
+		if ((current > 0 && Fighters::defense >= 100) || ((Fighters::defense + current) >= 100))
+			Fighters::defense = 100;
+		else if ((Fighters::defense + current) >= 100) {
+			changes[4] = 100 - Fighters::defense;
+			Fighters::defense = 100;
+		}
+		else {
+			Fighters::defense += current;
+			changes[4] = current;
+		}
 
-		//ambition
+		//footwork
+		current = ((amb / 1.5) * pow(rng::randd(0.0, 1.0, false), 3.0));
+		if ((current > 0 && Fighters::footwork >= 100) || ((Fighters::footwork + current) >= 100))
+			Fighters::footwork = 100;
+		else if ((Fighters::footwork + current) >= 100) {
+			changes[5] = 100 - Fighters::footwork;
+			Fighters::footwork = 100;
+		}
+		else {
+			Fighters::footwork += current;
+			changes[5] = current;
+		}
 
+		//--ambition
 
+		//motivation
+		current = ((.8 / 1.0) * pow(rng::randd(-1.0, 1.0, false), 3.0));
+		if ((current > 0 && Fighters::motivation >= 100) || ((Fighters::motivation + current) >= 100))
+			Fighters::motivation = 100;
+		else if ((Fighters::motivation + current) >= 100) {
+			changes[6] = 100 - Fighters::motivation;
+			Fighters::motivation = 100;
+		}
+		else {
+			Fighters::motivation += current;
+			changes[6] = current;
+		}
 
 	}
 	else if (Fighters::peakStatus == 2) {
 
-		//phys
+		//--phys
 
+		//stamina
+		current = ((2 / amb) * pow(rng::randd(-1.0, 0.0, false), 3.0));
+		if ((current > 0 && Fighters::stamina >= 100) || ((Fighters::stamina + current) >= 100))
+			Fighters::stamina = 100;
+		else if ((Fighters::stamina + current) >= 100) {
+			changes[0] = 100 - Fighters::stamina;
+			Fighters::stamina = 100;
+		}
+		else {
+			Fighters::stamina += current;
+			changes[0] = current;
+		}
 
+		//speed
+		current = ((2 / amb) * pow(rng::randd(-1.0, 0.0, false), 3.0));
+		if ((current > 0 && Fighters::speed >= 100) || ((Fighters::speed + current) >= 100))
+			Fighters::speed = 100;
+		else if ((Fighters::speed + current) >= 100) {
+			changes[1] = 100 - Fighters::speed;
+			Fighters::speed = 100;
+		}
+		else {
+			Fighters::speed += current;
+			changes[1] = current;
+		}
 
-		//mental
+		//--mental
 
+		//timing
+		current = ((.75 / amb) * pow(rng::randd(-1.0, 0.0, false), 3.0));
+		if ((current > 0 && Fighters::timing >= 100) || ((Fighters::timing + current) >= 100))
+			Fighters::timing = 100;
+		else if ((Fighters::timing + current) >= 100) {
+			changes[3] = 100 - Fighters::timing;
+			Fighters::timing = 100;
+		}
+		else {
+			Fighters::timing += current;
+			changes[3] = current;
+		}
 
+		//defense
+		current = ((.75 / amb) * pow(rng::randd(-1.0, 0.0, false), 3.0));
+		if ((current > 0 && Fighters::defense >= 100) || ((Fighters::defense + current) >= 100))
+			Fighters::defense = 100;
+		else if ((Fighters::defense + current) >= 100) {
+			changes[4] = 100 - Fighters::defense;
+			Fighters::defense = 100;
+		}
+		else {
+			Fighters::defense += current;
+			changes[4] = current;
+		}
 
-		//ambition
+		//footwork
+		current = ((.75 / amb) * pow(rng::randd(-1.0, 0.0, false), 3.0));
+		if ((current > 0 && Fighters::footwork >= 100) || ((Fighters::footwork + current) >= 100))
+			Fighters::footwork = 100;
+		else if ((Fighters::footwork + current) >= 100) {
+			changes[5] = 100 - Fighters::footwork;
+			Fighters::footwork = 100;
+		}
+		else {
+			Fighters::footwork += current;
+			changes[5] = current;
+		}
 
+		//--ambition
 
+		//motivation
+		current = ((.8 / 1.0) * pow(rng::randd(-1.0, 1.0, false), 3.0));
+		if ((current > 0 && Fighters::motivation >= 100) || ((Fighters::motivation + current) >= 100))
+			Fighters::motivation = 100;
+		else if ((Fighters::motivation + current) >= 100) {
+			changes[6] = 100 - Fighters::motivation;
+			Fighters::motivation = 100;
+		}
+		else {
+			Fighters::motivation += current;
+			changes[6] = current;
+		}
 
 	}
 
