@@ -1,10 +1,10 @@
 #include "WeightClass.h"
-#include "Fighters.h"
+#include "Fighter.h"
 #include <cmath>
 #include <vector>
 #include <iostream>
 
-std::vector<Fighters> allFighters;
+std::vector<Fighter> allFighters;
 
 WeightClass::WeightClass(int w)
 {
@@ -25,8 +25,7 @@ void WeightClass::ProgressClass()
 	for (int i = 0; i < NUMFIGHTERS; i++)
 	{
 		allFighters[i].Progress();
-		printf("------------------------------------\n");
-		allFighters[i].PrintFighter();
+		allFighters[i].vPrint();
 	}
 }
 
@@ -35,8 +34,6 @@ void WeightClass::IncrementAge()
 	for (int i = 0; i < NUMFIGHTERS; i++)
 	{
 		allFighters[i].IncrementFighterAge();
-
-		allFighters[i].PrintFighter();
 	}
 }
 

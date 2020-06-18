@@ -24,10 +24,10 @@
     <ClCompile Include="WeightClass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Fighters.cpp">
+    <ClCompile Include="RNG.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RNG.cpp">
+    <ClCompile Include="Fighter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,10 +41,10 @@
     <ClInclude Include="WeightClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Fighters.h">
+    <ClInclude Include="RNG.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RNG.h">
+    <ClInclude Include="Fighter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

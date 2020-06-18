@@ -2,7 +2,7 @@
 
 #include <string>
 
-class Fighters
+class Fighter
 {
 	// --VARIABLES--
 
@@ -44,7 +44,7 @@ class Fighters
 	int reach, height, stamina, health, power, speed, timing, defense, footwork;
 
 	//change array
-	int changes[7];
+	int changes[9];
 
 
 	// --FUNCTIONS--
@@ -52,12 +52,19 @@ class Fighters
 	// SelectName: generates random name for fighter
 	std::string SelectName(bool last);
 
+	// DeterminePeak: Determines whether to advance a fighter's peak phase
+	// Returns: 0: pre-peak, 1: peak, 2:post-peak
+	int DeterminePeak();
+
+	// PrintAttribute: Prints one attribute for vPrint
+	void PrintAttribute(int att, int val, int change, bool newLine);
+
 public:
 	// Constructor
-	Fighters();
+	Fighter();
 
 	// Deconstructer
-	~Fighters();
+	~Fighter();
 
 	// CreateFighter: used to initially fill the weightclasses
 	// Pre-Conditions:
@@ -66,10 +73,6 @@ public:
 	// NewFighter:
 	// Pre-Conditions:
 	void NewFighter(int weight);
-
-	// DeterminePeak: Determines whether to advance a fighter's peak phase
-	// Returns: 0: pre-peak, 1: peak, 2:post-peak
-	int DeterminePeak();
 
 	// Progress: progresses fighter attributes one month
 	void Progress();
@@ -97,6 +100,6 @@ public:
 	void PrintFighter();
 	
 	// vPrintFighter: Provides a verbose printout of the fighter
-	void vPringFighter();
+	void vPrint();
 };
 

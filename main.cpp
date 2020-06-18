@@ -24,11 +24,12 @@ int main()
 		for (MONTH = 1; MONTH <= 12; MONTH++)
 		{
 			std::cout << getMonth(MONTH) << " " << YEAR << std::endl;
+			printf("------------------------------------\n");
 
-			featherWeight.IncrementAge();
 			featherWeight.ProgressClass();
 		}
 		YEAR++;
+		featherWeight.IncrementAge();
 		std::cin.get();
 	}
 
