@@ -267,7 +267,7 @@ void Fighter::Progress()
 
 	float band = 5.0 / (Fighter::xfac - Fighter::overall);
 	std::cout << "rubber band effect: " << band << std::endl;
-	if (band > .75) band = .75;
+	if (band > .75 || band <= 0) band = .75;
 
 
 	if (Fighter::peakStatus == 0) {
