@@ -245,7 +245,7 @@ int Fighter::DeterminePeak()
 
 		int peakLength = Fighter::age - Fighter::peakStart;
 		int peakEndFactor = rng::randd(peakLength * 3, peakLength * 10, true);
-		std::cout << peakEndFactor + (Fighter::age / 3) << " > " << (Fighter::longevity + Fighter::motivation) / 2.5 << std::endl;
+		//std::cout << peakEndFactor + (Fighter::age / 3) << " > " << (Fighter::longevity + Fighter::motivation) / 2.5 << std::endl;
 		if (peakEndFactor + (Fighter::age / 3) > (Fighter::longevity + Fighter::motivation) / 2) {
 			return 2;
 		}
@@ -263,14 +263,19 @@ void Fighter::Progress()
 
 	int current = 0;
 	float amb = (Fighter::motivation / 100.0) + (Fighter::xfac / 100.0);
-	std::cout << amb << std::endl;
+	//std::cout << amb << std::endl;
+
+	float band = 5.0 / (Fighter::xfac - Fighter::overall);
+	std::cout << "rubber band effect: " << band << std::endl;
+	if (band > .75 || band <= 0) band = .75;
+
 
 	if (Fighter::peakStatus == 0) {
 
 		//--phys
 
 		//stamina
-		current = ((amb / 1.5) * pow(rng::randd(0.0, 1.0, false), 3.0));
+		current = ((amb / (band*2)) * pow(rng::randd(0.0, 1.0, false), 3.0));
 		if ((current > 0 && Fighter::stamina >= 100) || ((Fighter::stamina + current) >= 100))
 			Fighter::stamina = 100;
 		else if ((Fighter::stamina + current) >= 100) {
@@ -283,7 +288,7 @@ void Fighter::Progress()
 		}
 		
 		//speed
-		current = ((amb / 1.5) * pow(rng::randd(0.0, 1.0, false), 3.0));
+		current = ((amb / (band * 2)) * pow(rng::randd(0.0, 1.0, false), 3.0));
 		if ((current > 0 && Fighter::speed >= 100) || ((Fighter::speed + current) >= 100))
 			Fighter::speed = 100;
 		else if ((Fighter::speed + current) >= 100) {
@@ -298,7 +303,7 @@ void Fighter::Progress()
 		//--mental
 		
 		//timing
-		current = ((amb / .75) * pow(rng::randd(0.0, 1.0, false), 3.0));
+		current = ((amb / band) * pow(rng::randd(0.0, 1.0, false), 3.0));
 		if ((current > 0 && Fighter::timing >= 100) || ((Fighter::timing + current) >= 100))
 			Fighter::timing = 100;
 		else if ((Fighter::timing + current) >= 100) {
@@ -311,7 +316,7 @@ void Fighter::Progress()
 		}
 
 		//defense
-		current = ((amb / .75) * pow(rng::randd(0.0, 1.0, false), 3.0));
+		current = ((amb / band) * pow(rng::randd(0.0, 1.0, false), 3.0));
 		if ((current > 0 && Fighter::defense >= 100) || ((Fighter::defense + current) >= 100))
 			Fighter::defense = 100;
 		else if ((Fighter::defense + current) >= 100) {
@@ -324,7 +329,7 @@ void Fighter::Progress()
 		}
 
 		//footwork
-		current = ((amb / .75) * pow(rng::randd(0.0, 1.0, false), 3.0));
+		current = ((amb / band) * pow(rng::randd(0.0, 1.0, false), 3.0));
 		if ((current > 0 && Fighter::footwork >= 100) || ((Fighter::footwork + current) >= 100))
 			Fighter::footwork = 100;
 		else if ((Fighter::footwork + current) >= 100) {
@@ -357,7 +362,7 @@ void Fighter::Progress()
 		//--phys
 
 		//stamina
-		current = ((.75/amb) * pow(rng::randd(-1.0, 1.0, false), 3.0));
+		current = ((1.05/amb) * pow(rng::randd(-1.0, 1.0, false), 3.0));
 		if ((current > 0 && Fighter::stamina >= 100) || ((Fighter::stamina + current) >= 100))
 			Fighter::stamina = 100;
 		else if ((Fighter::stamina + current) >= 100) {
@@ -370,7 +375,7 @@ void Fighter::Progress()
 		}
 
 		//speed
-		current = ((.75/amb) * pow(rng::randd(-1.0, 0.0, false), 3.0));
+		current = ((1.05/amb) * pow(rng::randd(-1.0, 1.0, false), 3.0));
 		if ((current > 0 && Fighter::speed >= 100) || ((Fighter::speed + current) >= 100))
 			Fighter::speed = 100;
 		else if ((Fighter::speed + current) >= 100) {
@@ -385,7 +390,7 @@ void Fighter::Progress()
 		//--mental
 
 		//timing
-		current = ((amb / 1.5) * pow(rng::randd(0.0, 1.0, false), 3.0));
+		current = ((amb / 2.65) * pow(rng::randd(0.0, 1.0, false), 3.0));
 		if ((current > 0 && Fighter::timing >= 100) || ((Fighter::timing + current) >= 100))
 			Fighter::timing = 100;
 		else if ((Fighter::timing + current) >= 100) {
@@ -398,7 +403,7 @@ void Fighter::Progress()
 		}
 
 		//defense
-		current = ((amb / 1.5) * pow(rng::randd(0.0, 1.0, false), 3.0));
+		current = ((amb / 2.65) * pow(rng::randd(0.0, 1.0, false), 3.0));
 		if ((current > 0 && Fighter::defense >= 100) || ((Fighter::defense + current) >= 100))
 			Fighter::defense = 100;
 		else if ((Fighter::defense + current) >= 100) {
@@ -411,7 +416,7 @@ void Fighter::Progress()
 		}
 
 		//footwork
-		current = ((amb / 1.5) * pow(rng::randd(0.0, 1.0, false), 3.0));
+		current = ((amb / 2.65) * pow(rng::randd(0.0, 1.0, false), 3.0));
 		if ((current > 0 && Fighter::footwork >= 100) || ((Fighter::footwork + current) >= 100))
 			Fighter::footwork = 100;
 		else if ((Fighter::footwork + current) >= 100) {
@@ -441,15 +446,22 @@ void Fighter::Progress()
 	}
 	else if (Fighter::peakStatus == 2) {
 
+		float ageFactor = pow((Fighter::career / 13.0), 2.5) + (100.0 / Fighter::longevity);
+		//std::cout << "ageFactor: " << ageFactor << std::endl;
+
 		//--phys
 
 		//stamina
-		current = ((2 / amb) * pow(rng::randd(-1.0, 0.0, false), 3.0));
+		current = ((ageFactor / (amb / 2.0)) * pow(rng::randd(-1.0, 0.0, false), 3.0));
 		if ((current > 0 && Fighter::stamina >= 100) || ((Fighter::stamina + current) >= 100))
 			Fighter::stamina = 100;
 		else if ((Fighter::stamina + current) >= 100) {
 			changes[0] = 100 - Fighter::stamina;
 			Fighter::stamina = 100;
+		}
+		else if ((Fighter::stamina + current) <= 0) {
+			changes[0] = Fighter::stamina;
+			Fighter::stamina = 0;
 		}
 		else {
 			Fighter::stamina += current;
@@ -457,13 +469,17 @@ void Fighter::Progress()
 		}
 
 		//speed
-		current = ((2 / amb) * pow(rng::randd(-1.0, 0.0, false), 3.0));
+		current = ((ageFactor / (amb / 2.0)) * pow(rng::randd(-1.0, 0.0, false), 3.0));
 		if ((current > 0 && Fighter::speed >= 100) || ((Fighter::speed + current) >= 100))
 			Fighter::speed = 100;
 		else if ((Fighter::speed + current) >= 100) {
 			changes[1] = 100 - Fighter::speed;
 			Fighter::speed = 100;
 		}
+		else if ((Fighter::speed + current) <= 0){
+			changes[1] = Fighter::speed;
+			Fighter::speed = 0;
+		} 
 		else {
 			Fighter::speed += current;
 			changes[1] = current;

@@ -1,23 +1,44 @@
 #include "WeightClass.h"
 #include "Fighter.h"
-#include <cmath>
+#include "RNG.h"
 #include <vector>
 #include <iostream>
 
 std::vector<Fighter> allFighters;
 
-WeightClass::WeightClass(int w)
+WeightClass::WeightClass()
 {
+	
+}
+
+void CreateFighters(int w)
+{
+
 	allFighters.resize(NUMFIGHTERS);
 
-	int fighterOverall = 100;
+	float randNum;
+	int overall;
 	for (int i = 0; i < NUMFIGHTERS; i++)
 	{
-		if (i == 0) fighterOverall = 100;
-		else fighterOverall = (-25 * log10(i + 1.0)) + 100;
-		allFighters[i].CreateFighter(fighterOverall, w);
+		randNum = rng::randd(0.0, 1.0, false);
+
+		if (randNum < .001)
+			overall = rng::randd(90.0, 100.0, false);
+		else if (randNum < .01)
+			overall = rng::randd(80.0, 90.0, false);
+		else if (randNum < .05)
+			overall = rng::randd(70.0, 80.0, false);
+		else if (randNum < .25)
+			overall = rng::randd(60.0, 70.0, false);
+		else if (randNum < .55)
+			overall = rng::randd(50.0, 60.0, false);
+		else
+			overall = rng::randd(0.0, 40.0, false);
+
+		allFighters[i].CreateFighter(overall, w);
 		allFighters[i].PrintFighter();
 	}
+
 }
 
 void WeightClass::ProgressClass()

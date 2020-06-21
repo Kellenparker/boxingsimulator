@@ -1,10 +1,13 @@
 #pragma once
 
+#include <string>
+
 class Roster {
+
 
 public:
     Roster();
-    void progress();
-    void incrementAge();
+    void Progress();
+    void IncrementAge();
     ~Roster();
 };
