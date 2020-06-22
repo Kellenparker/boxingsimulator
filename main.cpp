@@ -73,7 +73,8 @@ void mainMenu(int m, int y, int* s, Roster r)
 		
 		//Check if returning to main menu
 		std::getline(std::cin, raw);
-		if (std::stoi(raw) == 1) s = 0;
+		if(raw != "")
+			if (std::stoi(raw) == 1) *s = 0;
 
 	}
 

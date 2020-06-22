@@ -107,6 +107,10 @@ void Fighter::CreateFighter(int ovr, int wght)
 	
 	//peak status
 	Fighter::peakStatus = Fighter::DeterminePeak();
+
+	//initialize changes
+	for (int i = 0; i <= 8; i++)
+		Fighter::changes[i] = 0;
 }
 
 void Fighter::NewFighter(int wght)
@@ -195,6 +199,10 @@ void Fighter::NewFighter(int wght)
 	//peak status
 	Fighter::peakStatus = 0;
 
+	//initialize changes
+	for (int i = 0; i <= 8; i++)
+		Fighter::changes[i] = 0;
+
 }
 
 std::string Fighter::SelectName(bool last)
@@ -234,9 +242,9 @@ std::string Fighter::SelectName(bool last)
 
 int Fighter::DeterminePeak()
 {
-	if (Fighter::peakStatus == 2)
+	if (Fighter::peakStatus == 2 && Fighter::age > Fighter::peakStart)
 		return 2;
-
+	
 	if (Fighter::age < Fighter::peakStart)
 		return 0;
 	else if (Fighter::age == Fighter::peakStart)
@@ -258,7 +266,7 @@ int Fighter::DeterminePeak()
 void Fighter::Progress()
 {
 
-	for (int i = 0; i <= 8; i++) 
+	for (int i = 0; i <= 8; i++)
 		Fighter::changes[i] = 0;
 
 	int current = 0;
@@ -266,7 +274,7 @@ void Fighter::Progress()
 	//std::cout << amb << std::endl;
 
 	float band = 5.0 / (Fighter::xfac - Fighter::overall);
-	std::cout << "rubber band effect: " << band << std::endl;
+	//std::cout << "rubber band effect: " << band << std::endl;
 	if (band > .75 || band <= 0) band = .75;
 
 
@@ -542,7 +550,7 @@ void Fighter::Progress()
 		}
 
 	}
-	
+
 	int temp = Fighter::overall;
 	Fighter::CalculateOverall();
 	changes[8] = Fighter::overall - temp;
@@ -753,6 +761,7 @@ void Fighter::vPrint()
 {
 	std::cout << Fighter::first << " " << Fighter::last << ": " << std::endl;
 
+	std::cout << "WGT: " << Fighter::weight << " ";
 	std::cout << "CAR: " << Fighter::career << " ";
 	std::cout << "PKS: " << Fighter::peakStart << " ";
 	std::cout << "PST: " << Fighter::peakStatus << " ";

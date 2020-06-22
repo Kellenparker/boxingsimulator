@@ -18,11 +18,8 @@ Roster::Roster()
 
 	RosterVector.resize(size);
 	
-	for (int i = 0; i < size; i++) {
-
+	for (int i = 0; i < size; i++) 
 		RosterVector[i].CreateFighters(classWeights[i]);
-
-	}
 
 }
 
@@ -42,8 +39,7 @@ void Roster::IncrementAge()
 
 void Roster::PrintWeightClass(int w)
 {
-	
-	RosterVector[w].PrintFighters();
+	RosterVector[w].PrintFighters(classWeights[w]);
 
 }
 

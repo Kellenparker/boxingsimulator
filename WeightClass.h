@@ -18,7 +18,7 @@ public:
     // IncrementAge: adds a year to every fighter's age
     void IncrementAge();
 
-    void PrintFighters();
+    void PrintFighters(int w);
 
     // Deconstructor
     ~WeightClass();
