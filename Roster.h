@@ -9,5 +9,6 @@ public:
     Roster();
     void Progress();
     void IncrementAge();
+    void PrintWeightClass(int w);
     ~Roster();
 };

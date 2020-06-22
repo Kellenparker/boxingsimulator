@@ -11,8 +11,9 @@ WeightClass::WeightClass()
 	
 }
 
-void CreateFighters(int w)
+void WeightClass::CreateFighters(int w)
 {
+
 
 	allFighters.resize(NUMFIGHTERS);
 
@@ -36,17 +37,16 @@ void CreateFighters(int w)
 			overall = rng::randd(0.0, 40.0, false);
 
 		allFighters[i].CreateFighter(overall, w);
-		allFighters[i].PrintFighter();
 	}
 
 }
 
 void WeightClass::ProgressClass()
 {
+
 	for (int i = 0; i < NUMFIGHTERS; i++)
 	{
 		allFighters[i].Progress();
-		allFighters[i].vPrint();
 	}
 }
 
@@ -55,6 +55,14 @@ void WeightClass::IncrementAge()
 	for (int i = 0; i < NUMFIGHTERS; i++)
 	{
 		allFighters[i].IncrementFighterAge();
+	}
+}
+
+void WeightClass::PrintFighters()
+{
+	for (int i = 0; i < NUMFIGHTERS; i++)
+	{
+		allFighters[i].vPrint();
 	}
 }
 
