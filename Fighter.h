@@ -46,6 +46,8 @@ class Fighter
 	//change array
 	int changes[9];
 
+	//next fight status
+	bool hasFight;
 
 	// --FUNCTIONS--
 
@@ -98,6 +100,8 @@ public:
 
 	// PrintFighter: Prints fighter information to console
 	void PrintFighter();
+
+	bool getHasFight();
 	
 	// vPrintFighter: Provides a verbose printout of the fighter
 	void vPrint();

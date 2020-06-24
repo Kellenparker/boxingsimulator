@@ -1,18 +1,9 @@
+/*
 #include "WeightClass.h"
 #include "Fighter.h"
 #include "RNG.h"
 #include <vector>
 #include <iostream>
-
-std::vector<Fighter> cFlyweight;
-std::vector<Fighter> cBantamweight; 
-std::vector<Fighter> cFeatherweight;
-std::vector<Fighter> cLightweight;
-std::vector<Fighter> cWelterweight;
-std::vector<Fighter> cMiddleweight;
-std::vector<Fighter> cLightheavyweight;
-std::vector<Fighter> cCruiserweight;
-std::vector<Fighter> cHeavyweight;
 
 WeightClass::WeightClass()
 {
@@ -22,56 +13,8 @@ WeightClass::WeightClass()
 void WeightClass::CreateFighters(int w)
 {
 
-	cFlyweight.resize(NUMFIGHTERS);
-	cBantamweight.resize(NUMFIGHTERS);
-	cFeatherweight.resize(NUMFIGHTERS);
-	cLightweight.resize(NUMFIGHTERS);
-	cWelterweight.resize(NUMFIGHTERS);
-	cMiddleweight.resize(NUMFIGHTERS);
-	cLightheavyweight.resize(NUMFIGHTERS);
-	cCruiserweight.resize(NUMFIGHTERS);
-	cHeavyweight.resize(NUMFIGHTERS);
+	
 
-	float randNum;
-	int overall;
-	for (int i = 0; i < NUMFIGHTERS; i++)
-	{
-		randNum = rng::randd(0.0, 1.0, false);
-
-		if (randNum < .001)
-			overall = rng::randd(90.0, 100.0, false);
-		else if (randNum < .01)
-			overall = rng::randd(80.0, 90.0, false);
-		else if (randNum < .05)
-			overall = rng::randd(70.0, 80.0, false);
-		else if (randNum < .25)
-			overall = rng::randd(60.0, 70.0, false);
-		else if (randNum < .55)
-			overall = rng::randd(50.0, 60.0, false);
-		else
-			overall = rng::randd(0.0, 40.0, false);
-
-		switch (w) {
-		case 112: cFlyweight[i].CreateFighter(overall, w);
-			break;
-		case 118: cBantamweight[i].CreateFighter(overall, w);
-			break;
-		case 126: cFeatherweight[i].CreateFighter(overall, w);
-			break;
-		case 135: cLightweight[i].CreateFighter(overall, w);
-			break;
-		case 147: cWelterweight[i].CreateFighter(overall, w);
-			break;
-		case 160: cMiddleweight[i].CreateFighter(overall, w);
-			break;
-		case 175: cLightheavyweight[i].CreateFighter(overall, w);
-			break;
-		case 200: cCruiserweight[i].CreateFighter(overall, w);
-			break;
-		case 220: cHeavyweight[i].CreateFighter(overall, w);
-			break;
-		}
-	}
 
 }
 
@@ -153,3 +96,4 @@ WeightClass::~WeightClass()
 {
 
 }
+*/

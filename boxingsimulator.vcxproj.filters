@@ -21,9 +21,6 @@
     <ClCompile Include="Roster.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WeightClass.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="RNG.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -36,9 +33,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Roster.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WeightClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RNG.h">

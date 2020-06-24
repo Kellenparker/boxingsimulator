@@ -143,14 +143,12 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RNG.cpp" />
     <ClCompile Include="Roster.cpp" />
-    <ClCompile Include="WeightClass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Fighter.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="RNG.h" />
     <ClInclude Include="Roster.h" />
-    <ClInclude Include="WeightClass.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

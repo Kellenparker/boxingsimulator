@@ -1,3 +1,4 @@
+/*
 #pragma once
 
 class WeightClass
@@ -24,3 +25,4 @@ public:
     ~WeightClass();
 };
 
+*/

@@ -111,6 +111,10 @@ void Fighter::CreateFighter(int ovr, int wght)
 	//initialize changes
 	for (int i = 0; i <= 8; i++)
 		Fighter::changes[i] = 0;
+
+	//hasfight
+	Fighter::hasFight = false;
+
 }
 
 void Fighter::NewFighter(int wght)
@@ -202,6 +206,9 @@ void Fighter::NewFighter(int wght)
 	//initialize changes
 	for (int i = 0; i <= 8; i++)
 		Fighter::changes[i] = 0;
+	
+	//hasfight
+	Fighter::hasFight = false;
 
 }
 
@@ -677,6 +684,11 @@ int Fighter::GetAttribute(int attribute, bool change, int changeValue)
 
 	return NULL;
 
+}
+
+bool Fighter::getHasFight()
+{
+	return Fighter::hasFight;
 }
 
 void Fighter::IncrementFighterAge()

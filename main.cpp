@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <iostream>
 #include "main.h"
-#include "WeightClass.h"
 #include "Roster.h"
 #include "RNG.h"
 
