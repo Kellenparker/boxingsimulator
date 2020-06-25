@@ -698,6 +698,11 @@ bool Fighter::getHasFight()
 	return Fighter::hasFight;
 }
 
+bool Fighter::operator > (const Fighter& str) const
+{
+	return (Fighter::overall > str.overall);
+}
+
 bool Fighter::IncrementFighterAge()
 {
 	Fighter::age++;

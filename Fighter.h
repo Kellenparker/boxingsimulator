@@ -7,8 +7,6 @@ class Fighter
 	// --VARIABLES--
 
 	//details
-	//1 - 100
-	int overall;
 	int weight;
 	//1 - 100
 	int popularity;
@@ -106,6 +104,11 @@ public:
 	void PrintFighter();
 
 	bool getHasFight();
+
+	//overall
+	int overall;
+
+	bool operator > (const Fighter& str) const;
 	
 	// vPrintFighter: Provides a verbose printout of the fighter
 	void vPrint();

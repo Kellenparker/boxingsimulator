@@ -4,6 +4,8 @@
 #include <vector>
 #include <iostream>
 #include <string>
+#include <algorithm>
+#include <functional>
 
 std::vector<std::vector<Fighter>> Fighters;
 std::vector<Fighter> Retired;
@@ -36,6 +38,11 @@ Roster::Roster()
 		}
 	}
 
+	//sort created Fighters
+	for (int i = 0; i < size; i++)
+	{
+		std::sort(Fighters[i].begin(), Fighters[i].end(), std::greater<Fighter>());
+	}
 }
 
 int Roster::GetOverall()
@@ -65,6 +72,7 @@ void Roster::Progress()
 		for (int j = 0; j < NUMFIGHTERS; j++) {
 			Fighters[i][j].Progress();
 		}
+		std::sort(Fighters[i].begin(), Fighters[i].end(), std::greater<Fighter>());
 	}
 }
 
