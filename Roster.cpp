@@ -6,16 +6,7 @@
 #include <string>
 
 std::vector<std::vector<Fighter>> Fighters;
-
-std::vector<Fighter> cFlyweight;
-std::vector<Fighter> cBantamweight;
-std::vector<Fighter> cFeatherweight;
-std::vector<Fighter> cLightweight;
-std::vector<Fighter> cWelterweight;
-std::vector<Fighter> cMiddleweight;
-std::vector<Fighter> cLightheavyweight;
-std::vector<Fighter> cCruiserweight;
-std::vector<Fighter> cHeavyweight;
+std::vector<Fighter> Retired;
 
 Fighter* fightList[450][2];
 int fightWait[450];
@@ -26,6 +17,8 @@ static const std::string weightClasses[] = { "flyweight", "bantamweight", "feath
 static const int classWeights[] = { 112, 118, 126, 135, 147, 160, 175, 200, 220 };
 
 const int size = 9;
+
+int retirements[9];
 
 static const int NUMFIGHTERS = 100;
 
@@ -79,11 +72,19 @@ void Roster::IncrementAge()
 {
 
 	for (int i = 0; i < size; i++)
-	{
-		for (int j = 0; j < NUMFIGHTERS; j++) {
-			Fighters[i][j].IncrementFighterAge();
-		}
-	}
+		for (int j = 0; j < NUMFIGHTERS; j++)
+			if (Fighters[i][j].IncrementFighterAge()) {
+				std::cout << "RETIREMENT-----------------------------------" << std::endl;
+				Fighters[i][j].vPrint();
+				std::cout << "---------------------------------------------" << std::endl;
+				retirements[i]++;
+				Retired.push_back(Fighters[i][j]);
+				Fighters[i][j].NewFighter(classWeights[i]);
+				std::cout << "NEW FIGHER-----------------------------------" << std::endl;
+				Fighters[i][j].vPrint();
+				std::cout << "---------------------------------------------" << std::endl;
+			}
+
 }
 
 void Roster::PrintWeightClass(int w)

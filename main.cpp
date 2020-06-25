@@ -47,8 +47,8 @@ void mainMenu(int m, int y, int* s, Roster r)
 	//state 0: main menu
 	if(*s == 0) {
 	
-		system("CLS");
-		std::cout << "" << std::flush;
+		//system("CLS");
+		//std::cout << "" << std::flush;
 		std::cout << getMonth(MONTH) << " " << YEAR << std::endl;
 		std::cout << "\t1.Flyweight" << std::endl;
 		std::cout << "\t2.Bantamweight" << std::endl;

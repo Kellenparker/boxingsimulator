@@ -115,6 +115,9 @@ void Fighter::CreateFighter(int ovr, int wght)
 	//hasfight
 	Fighter::hasFight = false;
 
+	//lastfight
+	Fighter::lastFight = false;
+
 }
 
 void Fighter::NewFighter(int wght)
@@ -134,7 +137,8 @@ void Fighter::NewFighter(int wght)
 	Fighter::age = rng::probCurve(minAge, maxAge, .66);
 
 	//overall
-	const int tempOverall = rng::probCurve(0, 100, .05);
+	const int tempOverall = (8000 * (1 / ((rng::randd(0, 70, false) + 75))) - 55);
+	std::cout << "tempovr: " << tempOverall << std::endl;
 
 	//career
 	Fighter::career = 0;
@@ -143,7 +147,7 @@ void Fighter::NewFighter(int wght)
 	Fighter::xfac = (-25 * log10(rng::randd(0, 100, true) + 1.0)) + 100;
 
 	//longevity
-	Fighter::longevity = (24.0 * (xfac * rng::randd(0.7, 1, false))) / 100;
+	Fighter::longevity = (24.0 * (Fighter::xfac * rng::randd(0.7, 1, false))) / 100;
 
 	//motivation
 	Fighter::motivation = rng::randd(75, 100, false);
@@ -157,28 +161,28 @@ void Fighter::NewFighter(int wght)
 	Fighter::height = rng::randd(0, 100, false);
 
 	//reach
-	Fighter::reach = rng::varianceRand(Fighter::height, 50.0, 0, 100);
+	Fighter::reach = rng::varianceRand(Fighter::height, 20.0, 0, 100);
 
 	//stamina
-	Fighter::stamina = rng::varianceRand(75, 25.0, 0, 100);
+	Fighter::stamina = rng::randd(20.0, 100.0, false);
 
 	//health
-	Fighter::health = rng::varianceRand(75, 25.0, 0, 100);
+	Fighter::health = rng::randd(20.0, 100.0, false);
 
 	//power
-	Fighter::power = rng::varianceRand(75, 25.0, 0, 100);
+	Fighter::power = rng::randd(20.0, 100.0, false);
 
 	//speed
-	Fighter::speed = rng::varianceRand(75, 25.0, 0, 100);
+	Fighter::speed = rng::randd(20.0, 100.0, false);
 
 	//timing
-	Fighter::timing = rng::varianceRand(25, 25.0, 0, 100);
+	Fighter::timing = rng::varianceRand(tempOverall, 10.0, 0, 100);
 
 	//defense
-	Fighter::defense = rng::varianceRand(25, 25.0, 0, 100);
+	Fighter::defense = rng::varianceRand(tempOverall, 10.0, 0, 100);
 
 	//footwork
-	Fighter::footwork = rng::varianceRand(tempOverall, 5.0, 0, 100);
+	Fighter::footwork = rng::varianceRand(tempOverall, 10.0, 0, 100);
 
 	//overall
 	Fighter::CalculateOverall();
@@ -209,6 +213,9 @@ void Fighter::NewFighter(int wght)
 	
 	//hasfight
 	Fighter::hasFight = false;
+
+	//lastfight
+	Fighter::lastFight = false;
 
 }
 
@@ -691,11 +698,57 @@ bool Fighter::getHasFight()
 	return Fighter::hasFight;
 }
 
-void Fighter::IncrementFighterAge()
+bool Fighter::IncrementFighterAge()
 {
 	Fighter::age++;
 	Fighter::career++;
 	Fighter::peakStatus = Fighter::DeterminePeak();
+
+	if (Fighter::lastFight)
+		return true;
+
+	if (Fighter::age > 40 && Fighter::damage > 80 && Fighter::success < 50) {
+		std::cout << "1" << std::endl;
+		if (Fighter::hasFight) {
+			Fighter::lastFight = true;
+			return false;
+		}
+		return true;
+	}
+	/*if (Fighter::age > 30 && Fighter::success < 30){
+		std::cout << "2" << std::endl;
+		if (Fighter::hasFight) {
+			Fighter::lastFight = true;
+			return false;
+		}
+		return true;
+	}*/
+	if (Fighter::damage > 90 && rng::randd(0.0, 1.0, false) > .5) {
+		std::cout << "3" << std::endl;
+		if (Fighter::hasFight) {
+			Fighter::lastFight = true;
+			return false;
+		}
+		return true;
+	}
+	if (Fighter::age > 40 && rng::randd(0.0, 1.0, false) > .5) {
+		std::cout << "4" << std::endl;
+		if (Fighter::hasFight) {
+			Fighter::lastFight = true;
+			return false;
+		}
+		return true;
+	}
+	if (rng::randd(0.0, 1.0, false) < 0.005) {
+		std::cout << "5" << std::endl;
+		if (Fighter::hasFight) {
+			Fighter::lastFight = true;
+			return false;
+		}
+		return true;
+	}
+
+	return false;
 }
 
 void Fighter::CalculateOverall()

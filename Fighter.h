@@ -49,6 +49,9 @@ class Fighter
 	//next fight status
 	bool hasFight;
 
+	//next fight is last fight
+	bool lastFight;
+
 	// --FUNCTIONS--
 
 	// SelectName: generates random name for fighter
@@ -93,7 +96,8 @@ public:
 	int GetAttribute(int attribute, bool change, int changeValue);
 
 	// IncrementFigherAge: Adds one year to figher's age
-	void IncrementFighterAge();
+	// If true; Fighter has retired
+	bool IncrementFighterAge();
 
 	// CalculateOverall: Executes overall formula stores in RandFighter::Overall
 	void CalculateOverall();
