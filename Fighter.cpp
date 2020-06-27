@@ -693,9 +693,14 @@ int Fighter::GetAttribute(int attribute, bool change, int changeValue)
 
 }
 
-bool Fighter::getHasFight()
+bool Fighter::GetHasFight()
 {
 	return Fighter::hasFight;
+}
+
+void Fighter::SetHasFight(bool b)
+{
+	Fighter::hasFight = b;
 }
 
 bool Fighter::operator > (const Fighter& str) const
@@ -789,6 +794,11 @@ void Fighter::PrintFighter()
 
 	std::cout << Fighter::wins << "-" << Fighter::losses;
 	std::cout << "-" << Fighter::draws << std::endl;
+}
+
+bool Fighter::GetProspect()
+{
+	return (Fighter::peakStart - Fighter::age) >= 2;
 }
 
 void Fighter::PrintAttribute(int att,int val, int change, bool newLine) 

@@ -103,11 +103,19 @@ public:
 	// PrintFighter: Prints fighter information to console
 	void PrintFighter();
 
-	bool getHasFight();
+	// GetProspect: returns if fighter is considered a prospect
+	bool GetProspect();
+
+	// GetHasFight: Returns if fighter already has a fight
+	bool GetHasFight();
+
+	// SetHasFight: Sets hasFight to desired boolean value
+	void SetHasFight(bool b);
 
 	//overall
 	int overall;
 
+	//operator >: provides an operator to use for sorting
 	bool operator > (const Fighter& str) const;
 	
 	// vPrintFighter: Provides a verbose printout of the fighter

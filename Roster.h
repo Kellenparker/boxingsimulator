@@ -12,5 +12,6 @@ public:
     void IncrementAge();
     void PrintWeightClass(int w);
     void FightFinder();
+    void FightPrint(int index);
     ~Roster();
 };
