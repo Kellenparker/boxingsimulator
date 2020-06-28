@@ -117,6 +117,9 @@ public:
 
 	//operator >: provides an operator to use for sorting
 	bool operator > (const Fighter& str) const;
+
+	//isEqual: returns if classes are the same
+	bool isEqual(const Fighter &c);
 	
 	// vPrintFighter: Provides a verbose printout of the fighter
 	void vPrint();

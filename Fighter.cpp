@@ -46,9 +46,6 @@ void Fighter::CreateFighter(int ovr, int wght)
 	//peakStart
 	Fighter::peakStart = rng::randd(22, 32, false);
 
-	//popularity -- needs belt system first
-	//success -- needs belt system first
-
 	//name
 	Fighter::first = Fighter::SelectName(false);
 	Fighter::last = Fighter::SelectName(true);
@@ -101,6 +98,19 @@ void Fighter::CreateFighter(int ovr, int wght)
 
 	//losses
 	Fighter::losses = fights - (wins + draws);
+
+	//Success
+	Fighter::success = (Fighter::wins * 2.5) - (Fighter::losses * 5) - (Fighter::draws * 2);
+	if (Fighter::success > 100) Fighter::success = 100;
+	else if (Fighter::success < 0) Fighter::success = 0;
+
+	//popularity
+	int personality = rng::randd(0.0, 100.0, false);
+	int prospect = 0;
+	if (Fighter::GetProspect()) prospect = 25;
+	Fighter::popularity = (Fighter::success / 25.0) + prospect + (Fighter::power / 50 + Fighter::speed / 50) + rng::randd(0.0, 25.0, false);
+	if (personality > Fighter::popularity)Fighter::popularity = personality;
+
 
 	//damage
 	Fighter::damage = (((Fighter::wins * rng::randd(1, 1.5, false)) + (Fighter::losses * rng::randd(2, 4, false)) + (Fighter::draws * rng::randd(1.5, 2, false))));
@@ -585,12 +595,12 @@ int Fighter::GetAttribute(int attribute, bool change, int changeValue)
 			break;
 		case 1: Fighter::weight = changeValue;
 			break;
-			//case 2: Fighter::promotion = changeValue;
-				//break;
-			//case 3: Fighter::popularity = changeValue;
-				//break;
-			//case 4: Fighter::belts = changeValue;
-				//break;
+		//case 2: Fighter::promotion = changeValue;
+			//break;
+		//case 3: Fighter::popularity = changeValue;
+			//break;
+		//case 4: Fighter::belts = changeValue;
+			//break;
 		case 5: Fighter::damage = changeValue;
 			break;
 		case 6: Fighter::age = changeValue;
@@ -641,12 +651,12 @@ int Fighter::GetAttribute(int attribute, bool change, int changeValue)
 			break;
 		case 1: return Fighter::weight;
 			break;
-			//case 2: return Fighter::promotion;
-				//break;
-			//case 3: return Fighter::popularity;
-				//break;
-			//case 4: return Fighter::belts;
-				//break;
+		//case 2: return Fighter::promotion;
+			//break;
+		case 3: return Fighter::popularity;
+			break;
+		//case 4: return Fighter::belts;
+			//break;
 		case 5: return Fighter::damage;
 			break;
 		case 6: return Fighter::age;
@@ -706,6 +716,12 @@ void Fighter::SetHasFight(bool b)
 bool Fighter::operator > (const Fighter& str) const
 {
 	return (Fighter::overall > str.overall);
+}
+
+bool Fighter::isEqual(const Fighter &c)
+{
+	if (this == &c) std::cout << "is equal---------------" << std::endl;
+	return this == &c;
 }
 
 bool Fighter::IncrementFighterAge()
@@ -849,7 +865,8 @@ void Fighter::vPrint()
 	std::cout << "XFC: " << Fighter::xfac << " " << std::endl;
 
 	Fighter::PrintAttribute(0, Fighter::overall, changes[8], false);
-	//Fighter::PrintAttribute(3, Fighter::popularity, 0, false);
+	Fighter::PrintAttribute(3, Fighter::popularity, 0, false);
+	Fighter::PrintAttribute(9, Fighter::success, 0, false);
 	Fighter::PrintAttribute(10, Fighter::longevity, changes[7], false);
 	Fighter::PrintAttribute(11, Fighter::motivation, changes[6], true);
 	Fighter::PrintAttribute(18, Fighter::stamina, changes[0], false);
