@@ -1,5 +1,6 @@
 #include "Roster.h"
 #include "Fighter.h"
+#include "Fight.h"
 #include "RNG.h"
 #include <vector>
 #include <iostream>
