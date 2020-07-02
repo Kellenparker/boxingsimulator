@@ -1,9 +1,11 @@
 #pragma once
 
 #include <string>
+#include "Fighter.h"
 
 class Roster {
 
+    int current;
 
 public:
     Roster();
@@ -12,6 +14,6 @@ public:
     void IncrementAge();
     void PrintWeightClass(int w);
     void FightFinder();
-    void FightPrint(int index);
+    void FightMake(Fighter *f1, Fighter *f2, int wait);
     ~Roster();
 };

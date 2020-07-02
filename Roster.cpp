@@ -1,6 +1,7 @@
 #include "Roster.h"
 #include "Fighter.h"
 #include "Fight.h"
+#include "FightCard.h"
 #include "RNG.h"
 #include <vector>
 #include <iostream>
@@ -21,9 +22,7 @@ int retirements[9];
 
 static const int NUMFIGHTERS = 10;
 
-Fighter* fightList[(NUMFIGHTERS * size) / 2][2];
-int fightWait[(NUMFIGHTERS * size) / 2];
-int fightAmount = 0;
+std::vector<FightCard> FightCardVec;
 
 Roster::Roster()
 {
@@ -31,6 +30,8 @@ Roster::Roster()
 	for (int i = 0; i < size; i++)
 		Fighters[i].resize(NUMFIGHTERS);
 
+	FightCardVec.resize(10);
+	Roster::current = 0;
 	
 	for (int i = 0; i < size; i++)
 	{
@@ -67,7 +68,7 @@ int Roster::GetOverall()
 
 void Roster::Progress()
 {
-
+	//Progress Fighters
 	for (int i = 0; i < size; i++)
 	{
 		for (int j = 0; j < NUMFIGHTERS; j++) {
@@ -75,6 +76,12 @@ void Roster::Progress()
 		}
 		std::sort(Fighters[i].begin(), Fighters[i].end(), std::greater<Fighter>());
 	}
+
+	//Matchmaking
+	FightFinder();
+
+	//Fight Card
+
 
 }
 
@@ -129,21 +136,11 @@ void Roster::FightFinder()
 						//make sure fighter isnt a prospect and doesn't have a fight scheduled
 						if (!Fighters[i][k].GetProspect() && !Fighters[i][k].GetHasFight()) {
 
-							Fighters[i][j].SetHasFight(true);
-							Fighters[i][k].SetHasFight(true);
-
-							fightList[fightAmount][0] = &Fighters[i][j];
-							fightList[fightAmount][1] = &Fighters[i][k];
+							std::cout << "Prospect fight" << std::endl;
 
 							//Fight time for prospects seems to be lower than most
 							//So fight time will be between 1-2 months
-							fightWait[fightAmount] = rng::randd(1.0, 2.0, false);
-
-							std::cout << "Low-level prospect fight" << std::endl;
-
-							FightPrint(fightAmount);
-
-							fightAmount++;
+							FightMake(&Fighters[i][j], &Fighters[i][k], rng::randd(1.0, 2.0, false));
 
 							break;
 
@@ -161,21 +158,11 @@ void Roster::FightFinder()
 					//Prospect will have 85% chance of taking fight
 					if ((Fighters[i][j].overall > (Fighters[i][k].overall + ovrDif)) && !Fighters[i][k].GetHasFight() && rng::randd(0.0, 1.0, false) < .85) {
 
-						Fighters[i][j].SetHasFight(true);
-						Fighters[i][k].SetHasFight(true);
-
-						fightList[fightAmount][0] = &Fighters[i][j];
-						fightList[fightAmount][1] = &Fighters[i][k];
+						std::cout << "Prospect fight" << std::endl;
 
 						//Fight time for prospects seems to be lower than most
 						//So fight time will be between 1-2 months
-						fightWait[fightAmount] = rng::randd(1.0, 2.0, false);
-
-						std::cout << "Prospect fight" << std::endl;
-
-						FightPrint(fightAmount);
-
-						fightAmount++;
+						FightMake(&Fighters[i][j], &Fighters[i][k], rng::randd(1.0, 2.0, false));
 
 						break;
 
@@ -191,7 +178,7 @@ void Roster::FightFinder()
 			if (Fighters[i][j].GetAttribute(6, false, 0) > 35 && Fighters[i][j].GetAttribute(9, false, 0) > 80 && !Fighters[i][j].GetHasFight()) {
 
 				//Find fighter with high popularity and lower overall
-				for (int k = 0; k > NUMFIGHTERS; k++) {
+				for (int k = 0; k < NUMFIGHTERS; k++) {
 
 					float ovrDif = rng::randd(5.0, 10.0, false);
 
@@ -199,20 +186,10 @@ void Roster::FightFinder()
 					//Fighter has a good chance of taking this fight as it will be very profitable (90%)
 					if (Fighters[i][k].GetAttribute(3, false, 0) > 80 && (Fighters[i][j].overall - ovrDif) >= Fighters[i][k].overall && rng::randd(0.0, 1.0, false) < .90 && !Fighters[i][k].GetHasFight()) {
 
-						Fighters[i][j].SetHasFight(true);
-						Fighters[i][k].SetHasFight(true);
-
-						fightList[fightAmount][0] = &Fighters[i][j];
-						fightList[fightAmount][1] = &Fighters[i][k];
-
-						//Big name fights like this will have a longer build up time than most
-						fightWait[fightAmount] = rng::randd(3.0, 6.0, false);
-
 						std::cout << "Late career money fight" << std::endl;
 
-						FightPrint(fightAmount);
-
-						fightAmount++;
+						//Big name fights like this will have a longer build up time than most
+						FightMake(&Fighters[i][j], &Fighters[i][k], rng::randd(3.0, 6.0, false));
 
 						break;
 
@@ -236,20 +213,10 @@ void Roster::FightFinder()
 					//50% chance for fight to make
 					if ((Fighters[i][j].overall - Fighters[i][k].overall < rng::randd(8.0, 12.0, false) || Fighters[i][k].overall - Fighters[i][j].overall < rng::randd(8.0, 12.0, false)) && !Fighters[i][k].GetHasFight() && rng::randd(0.0,1.0,false) > .5) {
 
-						Fighters[i][j].SetHasFight(true);
-						Fighters[i][k].SetHasFight(true);
-
-						fightList[fightAmount][0] = &Fighters[i][j];
-						fightList[fightAmount][1] = &Fighters[i][k];
-
-						//Big name fights like this will have a longer build up time than most
-						fightWait[fightAmount] = rng::randd(3.0, 6.0, false);
-
 						std::cout << "Top Level Fight" << std::endl;
 
-						FightPrint(fightAmount);
-
-						fightAmount++;
+						//Big name fights like this will have a longer build up time than most
+						FightMake(&Fighters[i][j], &Fighters[i][k], rng::randd(3.0, 6.0, false));
 
 						break;
 
@@ -272,20 +239,10 @@ void Roster::FightFinder()
 					//50% chance for fight to make
 					if ((Fighters[i][j].overall - Fighters[i][k].overall < rng::randd(8.0, 12.0, false) || Fighters[i][k].overall - Fighters[i][j].overall < rng::randd(8.0, 12.0, false)) && !Fighters[i][k].GetHasFight() && rng::randd(0.0, 1.0, false) < .7) {
 
-						Fighters[i][j].SetHasFight(true);
-						Fighters[i][k].SetHasFight(true);
-
-						fightList[fightAmount][0] = &Fighters[i][j];
-						fightList[fightAmount][1] = &Fighters[i][k];
-
-						//Mid-low level fights will have quick camps
-						fightWait[fightAmount] = rng::randd(1.0, 3.0, false);
-
 						std::cout << "Mid-Low Level Fight" << std::endl;
 
-						FightPrint(fightAmount);
-
-						fightAmount++;
+						//Mid-low level fights will have quick camps
+						FightMake(&Fighters[i][j], &Fighters[i][k], rng::randd(2.0, 4.0, false));
 
 						break;
 
@@ -303,18 +260,25 @@ void Roster::FightFinder()
 
 }
 
-void Roster::FightPrint(int index)
+void Roster::FightMake(Fighter* f1, Fighter* f2, int wait)
 {
 
-	std::cout << "Time Until Fight: " << fightWait[index] << " months." << std::endl;
+	std::cout << wait << "    " << current << std::endl;
 
-	std::cout << "Fighter 1: ";
-	fightList[index][0]->vPrint();
+	f1->SetHasFight(true);
+	f2->SetHasFight(true);
 
-	std::cout << "Fighter 2: ";
-	fightList[index][1]->vPrint();
+	int index = 0;
 
-	std::cout << "-------------------------------------------------" << std::endl;
+	if (wait + current > 9) index = (wait - (9 - current));
+	else
+		index = current + wait;
+
+	FightCardVec[index].AddFight(f1, f2);
+
+	FightCardVec[index].FightPrint(-1, wait);
+
+	if (current++ >= 9) current = 0;
 
 }
 

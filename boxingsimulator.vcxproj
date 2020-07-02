@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Fight.cpp" />
+    <ClCompile Include="FightCard.cpp" />
     <ClCompile Include="Fighter.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RNG.cpp" />
@@ -147,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Fight.h" />
+    <ClInclude Include="FightCard.h" />
     <ClInclude Include="Fighter.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="RNG.h" />

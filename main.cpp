@@ -32,7 +32,6 @@ int main()
 			mainMenu(MONTH, YEAR, &state, league);
 			ELAPSEDTIME++;
 			league.Progress();
-			league.FightFinder();
 		}
 		YEAR++;
 		league.IncrementAge();
