@@ -1,6 +1,5 @@
 #include "Roster.h"
 #include "Fighter.h"
-#include "Fight.h"
 #include "FightCard.h"
 #include "RNG.h"
 #include <vector>
@@ -80,8 +79,28 @@ void Roster::Progress()
 	//Matchmaking
 	FightFinder();
 
-	//Fight Card
 
+	//Print Card --for debugging
+	for (int i = 0; i < 10; i++) {
+
+		std::cout << "index = " << i << std::endl;
+		FightCardVec[i].PrintCard();
+
+	}
+
+	//Fight Card
+	//Make sure it isn't the first month
+	if (Roster::firstMonth)
+		Roster::firstMonth = false;
+	else {
+
+		std::cout << current << std::endl;
+
+		FightCardVec[current].RunCard();
+
+	}
+
+	if (current++ >= 9) current = 0;
 
 }
 
@@ -271,14 +290,11 @@ void Roster::FightMake(Fighter* f1, Fighter* f2, int wait)
 	int index = 0;
 
 	if (wait + current > 9) index = (wait - (9 - current));
-	else
-		index = current + wait;
+	else index = current + wait;
 
 	FightCardVec[index].AddFight(f1, f2);
 
 	FightCardVec[index].FightPrint(-1, wait);
-
-	if (current++ >= 9) current = 0;
 
 }
 

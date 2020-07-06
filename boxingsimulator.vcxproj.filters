@@ -27,9 +27,6 @@
     <ClCompile Include="Fighter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Fight.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="FightCard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -45,9 +42,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Fighter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Fight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FightCard.h">

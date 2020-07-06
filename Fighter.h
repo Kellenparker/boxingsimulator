@@ -103,6 +103,9 @@ public:
 	// PrintFighter: Prints fighter information to console
 	void PrintFighter();
 
+	// GetName: Prints fighter name
+	void GetName();
+
 	// GetProspect: returns if fighter is considered a prospect
 	bool GetProspect();
 
@@ -111,6 +114,10 @@ public:
 
 	// SetHasFight: Sets hasFight to desired boolean value
 	void SetHasFight(bool b);
+
+	// FightResult: Updates fighter and record after fight
+	// Result: 0 = win; 1 = loss; 2 = draw
+	void FightResult(int result);
 
 	//overall
 	int overall;

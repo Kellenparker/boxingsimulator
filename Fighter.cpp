@@ -708,9 +708,24 @@ bool Fighter::GetHasFight()
 	return Fighter::hasFight;
 }
 
+void Fighter::GetName()
+{
+	std::cout << Fighter::first << " " << Fighter::last;
+}
+
 void Fighter::SetHasFight(bool b)
 {
 	Fighter::hasFight = b;
+}
+
+void Fighter::FightResult(int result)
+{
+
+	switch (result) {
+	case 0: Fighter::wins++;
+	case 1: Fighter::losses++;
+	case 2: Fighter::draws++;
+	}
 }
 
 bool Fighter::operator > (const Fighter& str) const

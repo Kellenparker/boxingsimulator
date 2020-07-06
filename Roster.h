@@ -6,6 +6,7 @@
 class Roster {
 
     int current;
+    bool firstMonth = true;
 
 public:
     Roster();

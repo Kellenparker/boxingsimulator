@@ -6,6 +6,12 @@
 class FightCard
 {
 
+	struct fightSt {
+		int fight[2];
+	};
+
+	Fighter* fightList[MAXSIZE][2];
+
 	int currentSize;
 
 public:
@@ -16,7 +22,11 @@ public:
 
 	void RunCard();
 
+	fightSt RunFight(Fighter *f1, Fighter *f2);
+
 	void FightPrint(int index, int time);
+
+	void PrintCard();
 
 	~FightCard();
 
