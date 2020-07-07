@@ -119,6 +119,9 @@ public:
 	// Result: 0 = win; 1 = loss; 2 = draw
 	void FightResult(int result);
 
+	// AddDamage: Adds damage based on how tough fight was
+	void AddDamage(int dam);
+
 	//overall
 	int overall;
 

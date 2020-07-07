@@ -728,6 +728,14 @@ void Fighter::FightResult(int result)
 	}
 }
 
+void Fighter::AddDamage(int dam)
+{
+
+	Fighter::damage += dam / 15;
+	changes[8] = dam / 15;
+
+}
+
 bool Fighter::operator > (const Fighter& str) const
 {
 	return (Fighter::overall > str.overall);
@@ -883,7 +891,8 @@ void Fighter::vPrint()
 	Fighter::PrintAttribute(3, Fighter::popularity, 0, false);
 	Fighter::PrintAttribute(9, Fighter::success, 0, false);
 	Fighter::PrintAttribute(10, Fighter::longevity, changes[7], false);
-	Fighter::PrintAttribute(11, Fighter::motivation, changes[6], true);
+	Fighter::PrintAttribute(11, Fighter::motivation, changes[6], false);
+	Fighter::PrintAttribute(5, Fighter::damage, changes[8], true);
 	Fighter::PrintAttribute(18, Fighter::stamina, changes[0], false);
 	Fighter::PrintAttribute(19, Fighter::health, 0, false);
 	Fighter::PrintAttribute(20, Fighter::power, 0, false);

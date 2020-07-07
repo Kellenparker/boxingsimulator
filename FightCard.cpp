@@ -86,6 +86,10 @@ FightCard::fightSt FightCard::RunFight(Fighter *f1, Fighter *f2)
 
 	float prob = f1->overall * (1.0 / (f1->overall + f2->overall));
 
+	std::cout << "should be <= " << prob + .1 << std::endl;
+
+	int f1dam, f2dam;
+
 	if (rng::randd(0.0, 1.0, false) <= prob) {
 
 		f1->GetName();
@@ -93,6 +97,14 @@ FightCard::fightSt FightCard::RunFight(Fighter *f1, Fighter *f2)
 
 		f1->FightResult(0);
 		f2->FightResult(1);
+
+		f1dam = rng::randd(0.0, 50.0, false);
+		f1->AddDamage(f1dam);
+
+		f2dam = rng::randd(25.0, 100.0, false);
+		f2->AddDamage(f2dam);
+
+		std::cout << "Damage: winner: " << f1dam << " loser: " << f2dam << std::endl;
 
 	}
 	else { 
@@ -102,6 +114,14 @@ FightCard::fightSt FightCard::RunFight(Fighter *f1, Fighter *f2)
 
 		f1->FightResult(1);
 		f2->FightResult(0);
+
+		f2dam = rng::randd(0.0, 50.0, false);
+		f2->AddDamage(f2dam);
+
+		f1dam = rng::randd(25.0, 100.0, false);
+		f1->AddDamage(f1dam);
+
+		std::cout << "Damage: winner: " << f2dam << " loser: " << f1dam << std::endl;
 
 	}
 
