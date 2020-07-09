@@ -119,8 +119,11 @@ void Fighter::CreateFighter(int ovr, int wght)
 	Fighter::peakStatus = Fighter::DeterminePeak();
 
 	//initialize changes
-	for (int i = 0; i <= 8; i++)
+	for (int i = 0; i < 10; i++)
 		Fighter::changes[i] = 0;
+
+	//isChamp
+	Fighter::isChamp = false;
 
 	//hasfight
 	Fighter::hasFight = false;
@@ -218,9 +221,12 @@ void Fighter::NewFighter(int wght)
 	Fighter::peakStatus = 0;
 
 	//initialize changes
-	for (int i = 0; i <= 8; i++)
+	for (int i = 0; i < 10; i++)
 		Fighter::changes[i] = 0;
-	
+
+	//isChamp
+	Fighter::isChamp = false;
+
 	//hasfight
 	Fighter::hasFight = false;
 
@@ -708,6 +714,16 @@ bool Fighter::GetHasFight()
 	return Fighter::hasFight;
 }
 
+bool Fighter::GetChamp()
+{
+	return Fighter::isChamp;
+}
+
+void Fighter::SetChamp(bool b)
+{
+	Fighter::isChamp = b;
+}
+
 void Fighter::GetName()
 {
 	std::cout << Fighter::first << " " << Fighter::last;
@@ -731,8 +747,8 @@ void Fighter::FightResult(int result)
 void Fighter::AddDamage(int dam)
 {
 
-	Fighter::damage += dam / 15;
-	changes[8] = dam / 15;
+	Fighter::damage += dam / 7;
+	changes[9] = dam / 7;
 
 }
 
@@ -780,7 +796,7 @@ bool Fighter::IncrementFighterAge()
 		}
 		return true;
 	}
-	if (Fighter::age > 40 && rng::randd(0.0, 1.0, false) > .5) {
+	if (Fighter::damage >= 100) {
 		std::cout << "4" << std::endl;
 		if (Fighter::hasFight) {
 			Fighter::lastFight = true;
@@ -788,8 +804,16 @@ bool Fighter::IncrementFighterAge()
 		}
 		return true;
 	}
-	if (rng::randd(0.0, 1.0, false) < 0.005) {
+	if (Fighter::age > 40 && rng::randd(0.0, 1.0, false) > .5) {
 		std::cout << "5" << std::endl;
+		if (Fighter::hasFight) {
+			Fighter::lastFight = true;
+			return false;
+		}
+		return true;
+	}
+	if (rng::randd(0.0, 1.0, false) < 0.005) {
+		std::cout << "6" << std::endl;
 		if (Fighter::hasFight) {
 			Fighter::lastFight = true;
 			return false;
@@ -892,7 +916,7 @@ void Fighter::vPrint()
 	Fighter::PrintAttribute(9, Fighter::success, 0, false);
 	Fighter::PrintAttribute(10, Fighter::longevity, changes[7], false);
 	Fighter::PrintAttribute(11, Fighter::motivation, changes[6], false);
-	Fighter::PrintAttribute(5, Fighter::damage, changes[8], true);
+	Fighter::PrintAttribute(5, Fighter::damage, changes[9], true);
 	Fighter::PrintAttribute(18, Fighter::stamina, changes[0], false);
 	Fighter::PrintAttribute(19, Fighter::health, 0, false);
 	Fighter::PrintAttribute(20, Fighter::power, 0, false);

@@ -44,6 +44,22 @@ Roster::Roster()
 	{
 		std::sort(Fighters[i].begin(), Fighters[i].end(), std::greater<Fighter>());
 	}
+
+	//set champs (top ovr fighters in each weight class)
+	for (int i = 0; i < size; i++)
+	{
+		champs[i][0] = &Fighters[i][0];
+		champs[i][1] = &Fighters[i][1];
+		champs[i][0]->SetChamp(true);
+		champs[i][1]->SetChamp(true);
+		std::cout << weightClasses[i] << " CHAMP: ";
+		champs[i][0]->GetName();
+		std::cout << std::endl;
+		std::cout << weightClasses[i] << " CHAMP: ";
+		champs[i][1]->GetName();
+		std::cout << std::endl;
+	}
+
 }
 
 int Roster::GetOverall()
@@ -102,6 +118,8 @@ void Roster::Progress()
 
 	if (current++ >= 9) current = 0;
 
+	PercentFight();
+
 }
 
 void Roster::IncrementAge()
@@ -140,6 +158,14 @@ void Roster::FightFinder()
 			
 			//test if fighter already has fight scheduled and skip
 			if (Fighters[i][j].GetHasFight()) continue;
+
+			//if fighter is a champ, find top contender, or older popular fighter
+			//if belts are unified 
+			if (champs[i][1] == NULL) {
+				
+				if()
+
+			}
 
 			//if fighter is a prospect; find "can"
 			if (Fighters[i][j].GetProspect()) {
@@ -295,6 +321,29 @@ void Roster::FightMake(Fighter* f1, Fighter* f2, int wait)
 	FightCardVec[index].AddFight(f1, f2);
 
 	FightCardVec[index].FightPrint(-1, wait);
+
+}
+
+void Roster::PercentFight()
+{
+	int sumsum = 0;
+	int sum[size];
+	for (int i = 0; i < size; i++) sum[i] = 0;
+
+	for (int i = 0; i < size; i++) {
+
+		for (int j = 0; j < NUMFIGHTERS; j++) {
+
+			if (Fighters[i][j].GetHasFight()) {
+				sum[i]++;
+				sumsum++;
+			}
+		}
+	}
+
+	float percentTot = float(sumsum) / (size * NUMFIGHTERS);
+
+	std::cout << "% of roster that has fight: " << percentTot << std::endl;
 
 }
 

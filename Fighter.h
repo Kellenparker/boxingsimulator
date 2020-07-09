@@ -42,7 +42,7 @@ class Fighter
 	int reach, height, stamina, health, power, speed, timing, defense, footwork;
 
 	//change array
-	int changes[9];
+	int changes[10];
 
 	//next fight status
 	bool hasFight;
@@ -109,7 +109,7 @@ public:
 	// GetProspect: returns if fighter is considered a prospect
 	bool GetProspect();
 
-	// GetHasFight: Returns if fighter already has a fight
+	// GetHasFight: Returns true if fighter already has a fight
 	bool GetHasFight();
 
 	// SetHasFight: Sets hasFight to desired boolean value
