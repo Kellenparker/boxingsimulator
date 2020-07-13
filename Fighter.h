@@ -50,6 +50,9 @@ class Fighter
 	//next fight is last fight
 	bool lastFight;
 
+	//is fighter a champ
+	bool isChamp;
+
 	// --FUNCTIONS--
 
 	// SelectName: generates random name for fighter
@@ -111,6 +114,12 @@ public:
 
 	// GetHasFight: Returns true if fighter already has a fight
 	bool GetHasFight();
+
+	// GetChamp: Returns true if fighter is a champion
+	bool GetChamp();
+
+	// SetChamp: Sets the fighters champ status
+	void SetChamp(bool b);
 
 	// SetHasFight: Sets hasFight to desired boolean value
 	void SetHasFight(bool b);

@@ -163,7 +163,21 @@ void Roster::FightFinder()
 			//if belts are unified 
 			if (champs[i][1] == NULL) {
 				
-				if()
+				for (int k = NUMFIGHTERS - 1; k >= 0; k--) {
+
+					//make sure oponent isnt himself
+					if (!Fighters[i][k].GetChamp()) {
+
+						//first check for money fight
+						if (Fighters[i][k].GetAttribute(3, 0, false) > 75 && !Fighters[i][k].GetProspect() && rng::randd(0.0,1.0,false) < .8) {
+
+
+
+						}
+
+					}
+
+				}
 
 			}
 
