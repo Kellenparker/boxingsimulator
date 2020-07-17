@@ -163,21 +163,36 @@ void Roster::FightFinder()
 			//if belts are unified 
 			if (champs[i][1] == NULL) {
 				
+				//try to get a money fight first
 				for (int k = NUMFIGHTERS - 1; k >= 0; k--) {
 
 					//make sure oponent isnt himself
 					if (!Fighters[i][k].GetChamp()) {
 
-						//first check for money fight
+						//test if fighter already has fight scheduled and skip
+						if (Fighters[i][k].GetHasFight()) continue;
+
+						//check for money fight
 						if (Fighters[i][k].GetAttribute(3, 0, false) > 75 && !Fighters[i][k].GetProspect() && rng::randd(0.0,1.0,false) < .8) {
 
+							std::cout << "\"Money\" title fight" << std::endl;
 
+							//Fight time for prospects seems to be lower than most
+							//So fight time will be between 1-2 months
+							FightMake(&Fighters[i][j], &Fighters[i][k], rng::randd(3.0, 4.0, false));
+
+							break;
 
 						}
 
 					}
 
 				}
+
+				//secondly, a fight against a top contender will sell well too
+
+
+				continue;
 
 			}
 
@@ -229,7 +244,7 @@ void Roster::FightFinder()
 
 				}
 
-				break;
+				continue;
 
 			}
 
@@ -256,7 +271,7 @@ void Roster::FightFinder()
 
 				}
 
-				break;
+				continue;
 
 			}
 
@@ -283,7 +298,7 @@ void Roster::FightFinder()
 
 				}
 
-				break;
+				continue;
 
 			}
 
@@ -309,7 +324,7 @@ void Roster::FightFinder()
 
 				}
 
-				break;
+				continue;
 
 			}
 			

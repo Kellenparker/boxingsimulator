@@ -110,13 +110,13 @@ public:
 	void GetName();
 
 	// GetProspect: returns if fighter is considered a prospect
-	bool GetProspect();
+	const bool GetProspect();
 
 	// GetHasFight: Returns true if fighter already has a fight
-	bool GetHasFight();
+	const bool GetHasFight();
 
 	// GetChamp: Returns true if fighter is a champion
-	bool GetChamp();
+	const bool GetChamp();
 
 	// SetChamp: Sets the fighters champ status
 	void SetChamp(bool b);

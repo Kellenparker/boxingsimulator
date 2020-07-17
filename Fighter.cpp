@@ -709,14 +709,19 @@ int Fighter::GetAttribute(int attribute, bool change, int changeValue)
 
 }
 
-bool Fighter::GetHasFight()
+const bool Fighter::GetHasFight()
 {
 	return Fighter::hasFight;
 }
 
-bool Fighter::GetChamp()
+const bool Fighter::GetChamp()
 {
 	return Fighter::isChamp;
+}
+
+const bool Fighter::GetProspect()
+{
+	return (Fighter::peakStart - Fighter::age) >= 2;
 }
 
 void Fighter::SetChamp(bool b)
@@ -857,11 +862,6 @@ void Fighter::PrintFighter()
 
 	std::cout << Fighter::wins << "-" << Fighter::losses;
 	std::cout << "-" << Fighter::draws << std::endl;
-}
-
-bool Fighter::GetProspect()
-{
-	return (Fighter::peakStart - Fighter::age) >= 2;
 }
 
 void Fighter::PrintAttribute(int att,int val, int change, bool newLine) 
