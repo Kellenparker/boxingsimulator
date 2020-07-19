@@ -159,6 +159,8 @@ void FightCard::PrintCard()
 	for (int i = 0; i < currentSize; i++){
 
 		std::cout << "\t";
+		if (fightList[i][0]->GetChamp() || fightList[i][1]->GetChamp())
+			std::cout << "Title Fight: ";
 		fightList[i][0]->GetName();
 		std::cout << " vs. ";
 		fightList[i][1]->GetName();

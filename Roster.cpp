@@ -161,7 +161,7 @@ void Roster::FightFinder()
 
 			//if fighter is a champ, find top contender, or older popular fighter
 			//if belts are unified 
-			if (champs[i][1] == NULL) {
+			if (champs[i][1] == NULL && Fighters[i][j].isEqual(*champs[i][0])) {
 				
 				//try to get a money fight first
 				for (int k = NUMFIGHTERS - 1; k >= 0; k--) {
@@ -177,8 +177,7 @@ void Roster::FightFinder()
 
 							std::cout << "\"Money\" title fight" << std::endl;
 
-							//Fight time for prospects seems to be lower than most
-							//So fight time will be between 1-2 months
+							//So fight time will be between 3-4 months
 							FightMake(&Fighters[i][j], &Fighters[i][k], rng::randd(3.0, 4.0, false));
 
 							break;
@@ -189,8 +188,110 @@ void Roster::FightFinder()
 
 				}
 
-				//secondly, a fight against a top contender will sell well too
+				//secondly, a fight against a top contender will sell well too (>60 overall)
+				for (int k = NUMFIGHTERS - 1; k >= 0; k--) {
 
+					if (Fighters[i][k].GetHasFight()) continue;
+
+					// will not accept fighter with less than 60 overall
+					if (Fighters[i][k].overall < 60) break;
+
+					//check for champ, prospect, or having fight
+					if (Fighters[i][k].GetChamp() || Fighters[i][k].GetProspect()) continue;
+
+					//see if fight gets accepted
+					if (rng::randd(0.0,1.0,false) > .50) {
+
+						std::cout << "\"top level\" title fight" << std::endl;
+
+						
+						//So fight time will be between 3-4 months
+						FightMake(&Fighters[i][j], &Fighters[i][k], rng::randd(3.0, 4.0, false));
+
+						break;
+
+					}
+
+				}
+
+				continue;
+
+			}
+
+			//if fighter is a champ that isn't unified
+			if (champs[i][1] != NULL && (Fighters[i][j].isEqual(*champs[i][0]) || Fighters[i][j].isEqual(*champs[i][1]))) {
+
+				//try to get unification bout first
+				//make sure champ is not fighting himself
+				if (Fighters[i][j].isEqual(*champs[i][0]) && !champs[i][1]->GetHasFight() && rng::randd(0.0, 1.0, false) < .8) {
+
+					std::cout << "\"unification\" title fight" << std::endl;
+
+					// fight time will be between 3-4 months
+					FightMake(&Fighters[i][j], champs[i][1], rng::randd(3.0, 4.0, false));
+
+					continue;
+
+				}else if (Fighters[i][j].isEqual(*champs[i][1]) && !champs[i][0]->GetHasFight() && rng::randd(0.0, 1.0, false) < .8) {
+
+					std::cout << "\"unification\" title fight" << std::endl;
+
+					// fight time will be between 3-4 months
+					FightMake(&Fighters[i][j], champs[i][0], rng::randd(3.0, 4.0, false));
+
+					continue;
+
+				}
+
+				//try to get a money fight 
+				for (int k = NUMFIGHTERS - 1; k >= 0; k--) {
+
+					//make sure oponent isnt himself
+					if (!Fighters[i][k].GetChamp()) {
+
+						//test if fighter already has fight scheduled and skip
+						if (Fighters[i][k].GetHasFight()) continue;
+
+						//check for money fight
+						if (Fighters[i][k].GetAttribute(3, 0, false) > 75 && !Fighters[i][k].GetProspect() && rng::randd(0.0, 1.0, false) < .8) {
+
+							std::cout << "\"Money\" title fight" << std::endl;
+
+							//So fight time will be between 3-4 months
+							FightMake(&Fighters[i][j], &Fighters[i][k], rng::randd(3.0, 4.0, false));
+
+							break;
+
+						}
+
+					}
+
+				}
+
+				//secondly, a fight against a top contender will sell well too (>60 overall)
+				for (int k = NUMFIGHTERS - 1; k >= 0; k--) {
+
+					if (Fighters[i][k].GetHasFight()) continue;
+
+					// will not accept fighter with less than 60 overall
+					if (Fighters[i][k].overall < 60) break;
+
+					//check for champ, prospect, or having fight
+					if (Fighters[i][k].GetChamp() || Fighters[i][k].GetProspect()) continue;
+
+					//see if fight gets accepted
+					if (rng::randd(0.0, 1.0, false) > .50) {
+
+						std::cout << "\"top level\" title fight" << std::endl;
+
+
+						//So fight time will be between 3-4 months
+						FightMake(&Fighters[i][j], &Fighters[i][k], rng::randd(3.0, 4.0, false));
+
+
+					}
+
+				}
 
 				continue;
 
