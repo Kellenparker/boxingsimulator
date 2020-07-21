@@ -1,6 +1,9 @@
 #pragma once
 
+#include <stdlib.h>
+#include <iostream>
 #include "Roster.h"
+#include "RNG.h"
 
 int main();
 

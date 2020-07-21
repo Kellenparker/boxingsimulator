@@ -1,12 +1,4 @@
 #include "Roster.h"
-#include "Fighter.h"
-#include "FightCard.h"
-#include "RNG.h"
-#include <vector>
-#include <iostream>
-#include <string>
-#include <algorithm>
-#include <functional>
 
 std::vector<std::vector<Fighter>> Fighters;
 std::vector<Fighter> Retired;
@@ -35,7 +27,7 @@ Roster::Roster()
 	for (int i = 0; i < size; i++)
 	{
 		for (int j = 0; j < NUMFIGHTERS; j++) {
-			Fighters[i][j].CreateFighter(GetOverall(), classWeights[i]);
+			Fighters[i][j].CreateFighter(GetOverall(), classWeights[i], i);
 		}
 	}
 
@@ -112,7 +104,9 @@ void Roster::Progress()
 
 		std::cout << current << std::endl;
 
-		FightCardVec[current].RunCard();
+		FightCardVec[current].RunCard(champs);
+
+		//see if champs won or lost their fights
 
 	}
 
@@ -133,7 +127,7 @@ void Roster::IncrementAge()
 				std::cout << "---------------------------------------------" << std::endl;
 				retirements[i]++;
 				Retired.push_back(Fighters[i][j]);
-				Fighters[i][j].NewFighter(classWeights[i]);
+				Fighters[i][j].NewFighter(classWeights[i], i);
 				std::cout << "NEW FIGHER-----------------------------------" << std::endl;
 				Fighters[i][j].vPrint();
 				std::cout << "---------------------------------------------" << std::endl;

@@ -1,8 +1,5 @@
-#include <stdlib.h>
-#include <iostream>
+
 #include "main.h"
-#include "Roster.h"
-#include "RNG.h"
 
 static int YEAR;
 static int MONTH;
@@ -11,7 +8,6 @@ static int ELAPSEDTIME;
 static const std::string weightClasses[] = { "flyweight", "bantamweight", "featherweight", "lightweight" , "welterweight", "middleweight" , "lightheavyweight", "cruiserweight" , "heavyweight" };
 
 static const int classWeights[] = { 112, 118, 126, 135, 147, 160, 175, 200, 220 };
-
 
 int main()
 {
@@ -81,7 +77,9 @@ void mainMenu(int m, int y, int* s, Roster r)
 
 const char* getMonth(int m)
 {
+	
 	static const char* monthNames[] = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
 
 	return monthNames[m - 1];
+
 }

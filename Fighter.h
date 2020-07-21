@@ -1,6 +1,11 @@
 #pragma once
 
+#include <iostream>
+#include <fstream>
 #include <string>
+#include <cmath>
+#include <windows.h>
+#include "RNG.h"
 
 class Fighter
 {
@@ -8,6 +13,7 @@ class Fighter
 
 	//details
 	int weight;
+	int weightIndex;
 	//1 - 100
 	int popularity;
 	//1 - 100
@@ -74,11 +80,11 @@ public:
 
 	// CreateFighter: used to initially fill the weightclasses
 	// Pre-Conditions:
-	void CreateFighter(int ovr, int wght);
+	void CreateFighter(int ovr, int wght, int index);
 
 	// NewFighter:
 	// Pre-Conditions:
-	void NewFighter(int weight);
+	void NewFighter(int weight, int index);
 
 	// Progress: progresses fighter attributes one month
 	void Progress();
@@ -108,6 +114,9 @@ public:
 
 	// GetName: Prints fighter name
 	void GetName();
+
+	// GetWeight: Returns a fighters weight index
+	int GetWeight();
 
 	// GetProspect: returns if fighter is considered a prospect
 	const bool GetProspect();

@@ -1,21 +1,16 @@
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <cmath>
-#include <windows.h>
-#include "Fighter.h"
-#include "RNG.h"
 
+#include "Fighter.h"
 
 Fighter::Fighter()
 {
 
 }
 
-void Fighter::CreateFighter(int ovr, int wght)
+void Fighter::CreateFighter(int ovr, int wght, int index)
 {
 
 	Fighter::weight = wght;
+	Fighter::weightIndex = index;
 
 	//------ Generating -------
 
@@ -133,9 +128,11 @@ void Fighter::CreateFighter(int ovr, int wght)
 
 }
 
-void Fighter::NewFighter(int wght)
+void Fighter::NewFighter(int wght, int index)
 {
 	Fighter::weight = wght;
+	Fighter::weightIndex = index;
+
 	//------ Generating -------
 
 	//-- PERSONAL --
@@ -732,6 +729,11 @@ void Fighter::SetChamp(bool b)
 void Fighter::GetName()
 {
 	std::cout << Fighter::first << " " << Fighter::last;
+}
+
+int Fighter::GetWeight()
+{
+	return Fighter::weightIndex;
 }
 
 void Fighter::SetHasFight(bool b)

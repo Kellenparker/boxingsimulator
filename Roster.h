@@ -1,7 +1,13 @@
 #pragma once
 
-#include <string>
 #include "Fighter.h"
+#include "FightCard.h"
+#include "RNG.h"
+#include <vector>
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <functional>
 
 class Roster {
 
