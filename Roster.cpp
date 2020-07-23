@@ -23,7 +23,8 @@ Roster::Roster()
 
 	FightCardVec.resize(10);
 	Roster::current = 0;
-	
+	champs[9][2] = {};
+
 	for (int i = 0; i < size; i++)
 	{
 		for (int j = 0; j < NUMFIGHTERS; j++) {
@@ -169,7 +170,7 @@ void Roster::FightFinder()
 						//check for money fight
 						if (Fighters[i][k].GetAttribute(3, 0, false) > 75 && !Fighters[i][k].GetProspect() && rng::randd(0.0,1.0,false) < .8) {
 
-							std::cout << "\"Money\" title fight" << std::endl;
+							//std::cout << "\"Money\" title fight" << std::endl;
 
 							//So fight time will be between 3-4 months
 							FightMake(&Fighters[i][j], &Fighters[i][k], rng::randd(3.0, 4.0, false));
@@ -196,7 +197,7 @@ void Roster::FightFinder()
 					//see if fight gets accepted
 					if (rng::randd(0.0,1.0,false) > .50) {
 
-						std::cout << "\"top level\" title fight" << std::endl;
+						//std::cout << "\"top level\" title fight" << std::endl;
 
 						
 						//So fight time will be between 3-4 months
@@ -219,7 +220,7 @@ void Roster::FightFinder()
 				//make sure champ is not fighting himself
 				if (Fighters[i][j].isEqual(*champs[i][0]) && !champs[i][1]->GetHasFight() && rng::randd(0.0, 1.0, false) < .8) {
 
-					std::cout << "\"unification\" title fight" << std::endl;
+					//std::cout << "\"unification\" title fight" << std::endl;
 
 					// fight time will be between 3-4 months
 					FightMake(&Fighters[i][j], champs[i][1], rng::randd(3.0, 4.0, false));
@@ -228,7 +229,7 @@ void Roster::FightFinder()
 
 				}else if (Fighters[i][j].isEqual(*champs[i][1]) && !champs[i][0]->GetHasFight() && rng::randd(0.0, 1.0, false) < .8) {
 
-					std::cout << "\"unification\" title fight" << std::endl;
+					//std::cout << "\"unification\" title fight" << std::endl;
 
 					// fight time will be between 3-4 months
 					FightMake(&Fighters[i][j], champs[i][0], rng::randd(3.0, 4.0, false));
@@ -249,7 +250,7 @@ void Roster::FightFinder()
 						//check for money fight
 						if (Fighters[i][k].GetAttribute(3, 0, false) > 75 && !Fighters[i][k].GetProspect() && rng::randd(0.0, 1.0, false) < .8) {
 
-							std::cout << "\"Money\" title fight" << std::endl;
+							//std::cout << "\"Money\" title fight" << std::endl;
 
 							//So fight time will be between 3-4 months
 							FightMake(&Fighters[i][j], &Fighters[i][k], rng::randd(3.0, 4.0, false));
@@ -276,7 +277,7 @@ void Roster::FightFinder()
 					//see if fight gets accepted
 					if (rng::randd(0.0, 1.0, false) > .50) {
 
-						std::cout << "\"top level\" title fight" << std::endl;
+						//std::cout << "\"top level\" title fight" << std::endl;
 
 
 						//So fight time will be between 3-4 months
@@ -305,7 +306,7 @@ void Roster::FightFinder()
 						//make sure fighter isnt a prospect and doesn't have a fight scheduled
 						if (!Fighters[i][k].GetProspect() && !Fighters[i][k].GetHasFight()) {
 
-							std::cout << "Prospect fight" << std::endl;
+							//std::cout << "Prospect fight" << std::endl;
 
 							//Fight time for prospects seems to be lower than most
 							//So fight time will be between 1-2 months
@@ -327,7 +328,7 @@ void Roster::FightFinder()
 					//Prospect will have 85% chance of taking fight
 					if ((Fighters[i][j].overall > (Fighters[i][k].overall + ovrDif)) && !Fighters[i][k].GetHasFight() && rng::randd(0.0, 1.0, false) < .85) {
 
-						std::cout << "Prospect fight" << std::endl;
+						//std::cout << "Prospect fight" << std::endl;
 
 						//Fight time for prospects seems to be lower than most
 						//So fight time will be between 1-2 months
@@ -355,7 +356,7 @@ void Roster::FightFinder()
 					//Fighter has a good chance of taking this fight as it will be very profitable (90%)
 					if (Fighters[i][k].GetAttribute(3, false, 0) > 80 && (Fighters[i][j].overall - ovrDif) >= Fighters[i][k].overall && rng::randd(0.0, 1.0, false) < .90 && !Fighters[i][k].GetHasFight()) {
 
-						std::cout << "Late career money fight" << std::endl;
+						//std::cout << "Late career money fight" << std::endl;
 
 						//Big name fights like this will have a longer build up time than most
 						FightMake(&Fighters[i][j], &Fighters[i][k], rng::randd(3.0, 6.0, false));
@@ -382,7 +383,7 @@ void Roster::FightFinder()
 					//50% chance for fight to make
 					if ((Fighters[i][j].overall - Fighters[i][k].overall < rng::randd(8.0, 12.0, false) || Fighters[i][k].overall - Fighters[i][j].overall < rng::randd(8.0, 12.0, false)) && !Fighters[i][k].GetHasFight() && rng::randd(0.0,1.0,false) > .5) {
 
-						std::cout << "Top Level Fight" << std::endl;
+						//std::cout << "Top Level Fight" << std::endl;
 
 						//Big name fights like this will have a longer build up time than most
 						FightMake(&Fighters[i][j], &Fighters[i][k], rng::randd(3.0, 6.0, false));
@@ -408,7 +409,7 @@ void Roster::FightFinder()
 					//50% chance for fight to make
 					if ((Fighters[i][j].overall - Fighters[i][k].overall < rng::randd(8.0, 12.0, false) || Fighters[i][k].overall - Fighters[i][j].overall < rng::randd(8.0, 12.0, false)) && !Fighters[i][k].GetHasFight() && rng::randd(0.0, 1.0, false) < .7) {
 
-						std::cout << "Mid-Low Level Fight" << std::endl;
+						//std::cout << "Mid-Low Level Fight" << std::endl;
 
 						//Mid-low level fights will have quick camps
 						FightMake(&Fighters[i][j], &Fighters[i][k], rng::randd(2.0, 4.0, false));
@@ -432,7 +433,7 @@ void Roster::FightFinder()
 void Roster::FightMake(Fighter* f1, Fighter* f2, int wait)
 {
 
-	std::cout << wait << "    " << current << std::endl;
+	//std::cout << wait << "    " << current << std::endl;
 
 	f1->SetHasFight(true);
 	f2->SetHasFight(true);
@@ -443,9 +444,6 @@ void Roster::FightMake(Fighter* f1, Fighter* f2, int wait)
 	else index = current + wait;
 
 	FightCardVec[index].AddFight(f1, f2);
-
-	FightCardVec[index].FightPrint(-1, wait);
-
 }
 
 void Roster::PercentFight()

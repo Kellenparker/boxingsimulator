@@ -17,8 +17,40 @@ void FightCard::AddFight(Fighter* fighter1, Fighter* fighter2)
 
 	}
 
-	fightList[currentSize][0] = fighter1;
-	fightList[currentSize][1] = fighter2;
+	//f1 should be higher, if not, switch them
+	if (fighter2->overall > fighter1->overall) {
+
+		//std::cout << "flippng overalls" << std::endl;
+		Fighter temp = *fighter2;
+		fighter2 = fighter1;
+		*fighter1 = temp;
+
+	}
+
+	if (currentSize == 0) {
+
+		fightList[0][0] = fighter1;
+		fightList[0][1] = fighter2;
+		currentSize++;
+		return;
+
+	}
+
+	int sortInd; 
+	//get index where fighter should be placed
+	for (sortInd = 0; sortInd < currentSize; sortInd++)
+		if (fighter1->overall > fightList[sortInd][0]->overall) break;
+
+	//move fighters down array to make space for new fighter
+	for (int i = currentSize; i >= sortInd; i--) {
+
+		fightList[i + 1][0] = fightList[i][0];
+		fightList[i + 1][1] = fightList[i][1];
+
+	}
+
+	fightList[sortInd][0] = fighter1;
+	fightList[sortInd][1] = fighter2;
 	currentSize++;
 
 }
@@ -106,7 +138,6 @@ FightCard::fightSt FightCard::RunFight(Fighter *f1, Fighter *f2)
 {
 
 	FightCard::fightSt newfight;
-	newfight.fight[0] = newfight.fight[1] = 0;
 
 	int attendence = 0;
 	int score = 0;
@@ -124,24 +155,6 @@ FightCard::fightSt FightCard::RunFight(Fighter *f1, Fighter *f2)
 	std::cout << "f2: ";
 	f2->GetName();
 	std::cout << "ovr: " << f2->overall << std::endl;
-
-	//f1 should be higher, if not, switch them
-	if (f2->overall > f1->overall) {
-
-		std::cout << "flippng overalls" << std::endl;
-		Fighter temp = *f2;
-		f2 = f1;
-		*f1 = temp;
-
-		std::cout << "f1: ";
-		f1->GetName();
-		std::cout << "ovr: " << f1->overall << std::endl;
-
-		std::cout << "f2: ";
-		f2->GetName();
-		std::cout << "ovr: " << f2->overall << std::endl;
-
-	}
 
 	float prob = f1->overall * (1.0 / (f1->overall + f2->overall));
 
@@ -225,8 +238,10 @@ void FightCard::PrintCard()
 		if (fightList[i][0]->GetChamp() || fightList[i][1]->GetChamp())
 			std::cout << "Title Fight: ";
 		fightList[i][0]->GetName();
+		std::cout << " (" << fightList[i][0]->overall << ") ";
 		std::cout << " vs. ";
 		fightList[i][1]->GetName();
+		std::cout << " (" << fightList[i][1]->overall << ") ";
 		std::cout << std::endl;
 
 	}

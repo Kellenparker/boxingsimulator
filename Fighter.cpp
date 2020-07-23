@@ -766,7 +766,7 @@ bool Fighter::operator > (const Fighter& str) const
 
 bool Fighter::isEqual(const Fighter &c)
 {
-	if (this == &c) std::cout << "is equal---------------" << std::endl;
+	//if (this == &c) std::cout << "is equal---------------" << std::endl;
 	return this == &c;
 }
 

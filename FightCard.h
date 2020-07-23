@@ -10,14 +10,16 @@ class FightCard
 {
 public:
 	struct fightSt {
-		int fight[2];
 		int weight;
 		Fighter* winner;
 		Fighter* loser;
 	};
 
 private:
+
 	Fighter* fightList[MAXSIZE][2];
+	// ^ and v are to share indexes.
+	int hype[MAXSIZE];
 
 	int currentSize;
 
