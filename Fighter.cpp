@@ -724,6 +724,8 @@ const bool Fighter::GetProspect()
 void Fighter::SetChamp(bool b)
 {
 	Fighter::isChamp = b;
+	if (b && (Fighter::popularity + 10) > 100) Fighter::popularity = 100;
+	else if(b) Fighter::popularity += 10;
 }
 
 void Fighter::GetName()
@@ -866,13 +868,10 @@ void Fighter::PrintFighter()
 	std::cout << "-" << Fighter::draws << std::endl;
 }
 
-void Fighter::PrintAttribute(int att,int val, int change, bool newLine) 
+void Fighter::PrintAttribute(int att, int val, int change, bool newLine) 
 {
 
-	std::string attributes[] = { "OVR", "WGT", "PRO", "POP" , "BEL" , "DAM" , "AGE" ,
-					  "CAR" , "POT" , "SUC" , "LON" , "MOT" , "FIG" , "WIN", "LOS",
-					  "DRW" , "RCH" , "HGT" , "STA" , "HTH" , "PWR" , "SPD", "TIM",
-					  "DEF", "FWK" };
+	std::string attributes[] = { "OVR", "WGT", "PRO", "POP" , "BEL" , "DAM" , "AGE" , "CAR" , "POT" , "SUC" , "LON" , "MOT" , "FIG" , "WIN", "LOS", "DRW" , "RCH" , "HGT" , "STA" , "HTH" , "PWR" , "SPD", "TIM", "DEF", "FWK" };
 
 
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);

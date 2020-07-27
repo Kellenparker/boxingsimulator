@@ -60,6 +60,8 @@ void FightCard::RunCard(Fighter* champList[][2])
 	fightSt result;
 	Fighter* localChamps[2];
 
+	int hype = detHype();
+
 	for (int i = 0; i < currentSize; i++) {
 
 		result = RunFight(fightList[i][0], fightList[i][1]);
@@ -181,7 +183,7 @@ FightCard::fightSt FightCard::RunFight(Fighter *f1, Fighter *f2)
 		std::cout << "Damage: winner: " << f1dam << " loser: " << f2dam << std::endl;
 
 	}
-	else { 
+	else {
 
 		f2->GetName();
 		std::cout << " wins!" << std::endl;
@@ -206,6 +208,22 @@ FightCard::fightSt FightCard::RunFight(Fighter *f1, Fighter *f2)
 
 	return newfight;
 	
+}
+
+int FightCard::detHype()
+{
+	float hypeWeight[] = {.50, .30, .1, .1};
+	int sum = 0;
+
+	for (int i = 0; i < 4 && i < currentSize; i++) {
+
+		sum += ((fightList[i][0]->GetAttribute(3, 0, false) + fightList[i][1]->GetAttribute(3, 0, false)) / 2) * hypeWeight[i];
+
+		std::cout << "\t\t____HYPE_____SUM_____" << sum << std::endl;
+
+	}
+
+	return sum;
 }
 
 void FightCard::FightPrint(int index, int time)
