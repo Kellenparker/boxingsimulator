@@ -21,6 +21,9 @@ private:
 	// ^ and v are to share indexes.
 	int hype[MAXSIZE];
 
+	//500m
+	int maxEarnings = 500000000;
+
 	int currentSize;
 
 public:
@@ -33,13 +36,15 @@ public:
 
 	fightSt RunFight(Fighter *f1, Fighter *f2);
 
-	int detHype();
-
 	void FightPrint(int index, int time);
 
 	void PrintCard();
 
 	~FightCard();
+
+private:
+
+	float detHype();
 
 };
 

@@ -60,7 +60,23 @@ void FightCard::RunCard(Fighter* champList[][2])
 	fightSt result;
 	Fighter* localChamps[2];
 
-	int hype = detHype();
+	float hype = detHype();
+	int attendence;
+	if (hype < .4) attendence = 25000 * (hype / .4);
+	else attendence = 25000;
+	int ticketPrice;
+	if (attendence < 25000) ticketPrice = 20;
+	else ticketPrice = ((hype - .4) * 100) + 20;
+	int ppvsales = NULL;
+	if (hype > .5) {
+
+		std::cout << "here" << std::endl;
+		ppvsales = ((hype * 10) - 5) * 200000;
+
+	}
+	int earnings = (attendence * ticketPrice) + (ppvsales * 60);
+
+	std::cout << "___HYPE___" << hype << "___ATT___" << attendence << "___TIC___" << ticketPrice << "___PPV___" << ppvsales <<  "___EARN___" << earnings << std::endl;
 
 	for (int i = 0; i < currentSize; i++) {
 
@@ -141,7 +157,6 @@ FightCard::fightSt FightCard::RunFight(Fighter *f1, Fighter *f2)
 
 	FightCard::fightSt newfight;
 
-	int attendence = 0;
 	int score = 0;
 
 	newfight.weight = f1->GetWeight();
@@ -210,16 +225,16 @@ FightCard::fightSt FightCard::RunFight(Fighter *f1, Fighter *f2)
 	
 }
 
-int FightCard::detHype()
+float FightCard::detHype()
 {
 	float hypeWeight[] = {.50, .30, .1, .1};
-	int sum = 0;
+	float sum = 0;
 
 	for (int i = 0; i < 4 && i < currentSize; i++) {
 
-		sum += ((fightList[i][0]->GetAttribute(3, 0, false) + fightList[i][1]->GetAttribute(3, 0, false)) / 2) * hypeWeight[i];
+		sum += (float(fightList[i][0]->GetAttribute(3, 0, false) + float(fightList[i][1]->GetAttribute(3, 0, false))) / 200.0) * hypeWeight[i];
 
-		std::cout << "\t\t____HYPE_____SUM_____" << sum << std::endl;
+		//std::cout << "\t\t____HYPE_____SUM_____" << sum << std::endl;
 
 	}
 
