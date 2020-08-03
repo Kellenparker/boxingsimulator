@@ -94,16 +94,21 @@ void Fighter::CreateFighter(int ovr, int wght, int index)
 	//losses
 	Fighter::losses = fights - (wins + draws);
 
+	//earnings
+	Fighter::earnings = fights * 30 * overall;
+
 	//Success
 	Fighter::success = (Fighter::wins * 2.5) - (Fighter::losses * 5) - (Fighter::draws * 2);
 	if (Fighter::success > 100) Fighter::success = 100;
 	else if (Fighter::success < 0) Fighter::success = 0;
 
+
+
 	//popularity
 	int personality = rng::randd(0.0, 100.0, false);
 	int prospect = 0;
 	if (Fighter::GetProspect()) prospect = 25;
-	Fighter::popularity = (Fighter::success / 25.0) + prospect + (Fighter::power / 50 + Fighter::speed / 50) + rng::randd(0.0, 25.0, false);
+	Fighter::popularity = (Fighter::success / 25.0) + prospect + (Fighter::overall / 25.0) + rng::randd(0.0, 25.0, false);
 	if (personality > Fighter::popularity)Fighter::popularity = personality;
 
 
@@ -163,6 +168,10 @@ void Fighter::NewFighter(int wght, int index)
 	Fighter::motivation = rng::randd(75, 100, false);
 
 	//popularity -- needs belt system first
+	int prospect = 0;
+	if (GetProspect()) prospect = 25;
+	Fighter::popularity = rng::randd(0.0, 30.0, false) + prospect;
+
 	//success -- needs belt system first
 
 	//-- PHYSICAL ATTRIBUTES --
@@ -210,6 +219,9 @@ void Fighter::NewFighter(int wght, int index)
 
 	//losses
 	Fighter::losses = 0;
+
+	//earnings
+	Fighter::earnings = 0;
 
 	//damage
 	Fighter::damage = 0;
@@ -725,7 +737,8 @@ void Fighter::SetChamp(bool b)
 {
 	Fighter::isChamp = b;
 	if (b && (Fighter::popularity + 10) > 100) Fighter::popularity = 100;
-	else if(b) Fighter::popularity += 10;
+	else if (b) Fighter::popularity += 5;
+	else Fighter::popularity -= 2;
 }
 
 void Fighter::GetName()
@@ -743,13 +756,27 @@ void Fighter::SetHasFight(bool b)
 	Fighter::hasFight = b;
 }
 
-void Fighter::FightResult(int result)
+void Fighter::AddEarnings(int earn)
+{
+	Fighter::earnings += earn;
+}
+
+void Fighter::FightResult(int result, int score)
 {
 
 	switch (result) {
-	case 0: Fighter::wins++;
-	case 1: Fighter::losses++;
-	case 2: Fighter::draws++;
+	case 0: {
+		Fighter::wins++;
+		Fighter::popularity += 2;
+	}
+	case 1: {
+		Fighter::losses++;
+		Fighter::popularity -= 1;
+	}
+	case 2: {
+		Fighter::draws++;
+		Fighter::popularity += 1;
+	}
 	}
 }
 
@@ -871,7 +898,7 @@ void Fighter::PrintFighter()
 void Fighter::PrintAttribute(int att, int val, int change, bool newLine) 
 {
 
-	std::string attributes[] = { "OVR", "WGT", "PRO", "POP" , "BEL" , "DAM" , "AGE" , "CAR" , "POT" , "SUC" , "LON" , "MOT" , "FIG" , "WIN", "LOS", "DRW" , "RCH" , "HGT" , "STA" , "HTH" , "PWR" , "SPD", "TIM", "DEF", "FWK" };
+	std::string attributes[] = { "OVR", "WGT", "PRO", "POP" , "BEL" , "DAM" , "AGE" , "CAR" , "POT" , "SUC" , "LON" , "MOT" , "FIG" , "WIN", "LOS", "DRW" , "RCH" , "HGT" , "STA" , "HTH" , "PWR" , "SPD", "TIM", "DEF", "FWK", "ERN" };
 
 
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -917,7 +944,8 @@ void Fighter::vPrint()
 	Fighter::PrintAttribute(9, Fighter::success, 0, false);
 	Fighter::PrintAttribute(10, Fighter::longevity, changes[7], false);
 	Fighter::PrintAttribute(11, Fighter::motivation, changes[6], false);
-	Fighter::PrintAttribute(5, Fighter::damage, changes[9], true);
+	Fighter::PrintAttribute(35, Fighter::earnings, 0, true);
+	Fighter::PrintAttribute(5, Fighter::damage, changes[9], false);
 	Fighter::PrintAttribute(18, Fighter::stamina, changes[0], false);
 	Fighter::PrintAttribute(19, Fighter::health, 0, false);
 	Fighter::PrintAttribute(20, Fighter::power, 0, false);

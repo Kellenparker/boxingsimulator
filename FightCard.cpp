@@ -60,6 +60,7 @@ void FightCard::RunCard(Fighter* champList[][2])
 	fightSt result;
 	Fighter* localChamps[2];
 
+	//Fight card attributes
 	float hype = detHype();
 	int attendence;
 	if (hype < .4) attendence = 25000 * (hype / .4);
@@ -75,6 +76,8 @@ void FightCard::RunCard(Fighter* champList[][2])
 
 	}
 	int earnings = (attendence * ticketPrice) + (ppvsales * 60);
+
+	int totPop = 0;
 
 	std::cout << "___HYPE___" << hype << "___ATT___" << attendence << "___TIC___" << ticketPrice << "___PPV___" << ppvsales <<  "___EARN___" << earnings << std::endl;
 
@@ -140,6 +143,33 @@ void FightCard::RunCard(Fighter* champList[][2])
 
 	}
 
+	int fighterEarnings = earnings / 2;
+	std::cout << "FE:  " << fighterEarnings << std::endl;
+
+	//give fighters their earnings
+	for (int i = 0; i < currentSize; i++) {
+
+		totPop += fightList[i][0]->GetAttribute(3, 0, false);
+		totPop += fightList[i][1]->GetAttribute(3, 0, false);
+
+	}
+
+	//std::cout << "totPop =========== " << totPop << std::endl;
+
+	float percentage;
+
+	for (int i = 0; i < currentSize; i++) {
+		//add earnings for both fighters
+		percentage = fightList[i][0]->GetAttribute(3, 0, false) / float(totPop);
+
+		fightList[i][0]->AddEarnings(fighterEarnings * percentage);
+
+		percentage = fightList[i][1]->GetAttribute(3, 0, false) / float(totPop);
+
+		fightList[i][1]->AddEarnings(fighterEarnings * percentage);
+
+	}
+
 	//empty card
 	for (int i = 0; i < MAXSIZE; i++) {
 
@@ -157,7 +187,7 @@ FightCard::fightSt FightCard::RunFight(Fighter *f1, Fighter *f2)
 
 	FightCard::fightSt newfight;
 
-	int score = 0;
+	int score = rng::randd(0.0, 100.0, false); 
 
 	newfight.weight = f1->GetWeight();
 
@@ -184,8 +214,8 @@ FightCard::fightSt FightCard::RunFight(Fighter *f1, Fighter *f2)
 		f1->GetName();
 		std::cout << " wins!" << std::endl;
 
-		f1->FightResult(0);
-		f2->FightResult(1);
+		f1->FightResult(0, score);
+		f2->FightResult(1, score);
 		newfight.winner = f1;
 		newfight.loser = f2;
 
@@ -203,8 +233,8 @@ FightCard::fightSt FightCard::RunFight(Fighter *f1, Fighter *f2)
 		f2->GetName();
 		std::cout << " wins!" << std::endl;
 
-		f1->FightResult(1);
-		f2->FightResult(0);
+		f1->FightResult(1, score);
+		f2->FightResult(0, score);
 		newfight.winner = f2;
 		newfight.loser = f1;
 

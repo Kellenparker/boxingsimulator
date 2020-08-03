@@ -42,6 +42,9 @@ class Fighter
 	//record (depends on age mostly)
 	int fights;
 	int wins, losses, draws;
+	
+	//earnings made from fights
+	int earnings;
 
 	//physical attributes
 	//1 - 100
@@ -133,9 +136,12 @@ public:
 	// SetHasFight: Sets hasFight to desired boolean value
 	void SetHasFight(bool b);
 
+	// AddEarnings: adds earnings to total worth
+	void AddEarnings(int earn);
+
 	// FightResult: Updates fighter and record after fight
 	// Result: 0 = win; 1 = loss; 2 = draw
-	void FightResult(int result);
+	void FightResult(int result, int score);
 
 	// AddDamage: Adds damage based on how tough fight was
 	void AddDamage(int dam);
