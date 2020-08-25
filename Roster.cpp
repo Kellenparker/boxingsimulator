@@ -154,6 +154,9 @@ void Roster::FightFinder()
 			//test if fighter already has fight scheduled and skip
 			if (Fighters[i][j].GetHasFight()) continue;
 
+			//test if figher is waiting
+			if (Fighters[i][j].GetWait()) continue;
+
 			//if fighter is a champ, find top contender, or older popular fighter
 			//if belts are unified 
 			if (champs[i][1] == NULL && Fighters[i][j].isEqual(*champs[i][0])) {
@@ -166,6 +169,9 @@ void Roster::FightFinder()
 
 						//test if fighter already has fight scheduled and skip
 						if (Fighters[i][k].GetHasFight()) continue;
+
+						//test if figher is waiting
+						if (Fighters[i][k].GetWait()) continue;
 
 						//check for money fight
 						if (Fighters[i][k].GetAttribute(3, 0, false) > 75 && !Fighters[i][k].GetProspect() && rng::randd(0.0,1.0,false) < .8) {
@@ -187,6 +193,9 @@ void Roster::FightFinder()
 				for (int k = NUMFIGHTERS - 1; k >= 0; k--) {
 
 					if (Fighters[i][k].GetHasFight()) continue;
+					
+					//test if figher is waiting
+					if (Fighters[i][k].GetWait()) continue;
 
 					// will not accept fighter with less than 60 overall
 					if (Fighters[i][k].overall < 60) break;
@@ -218,7 +227,7 @@ void Roster::FightFinder()
 
 				//try to get unification bout first
 				//make sure champ is not fighting himself
-				if (Fighters[i][j].isEqual(*champs[i][0]) && !champs[i][1]->GetHasFight() && rng::randd(0.0, 1.0, false) < .8) {
+				if (Fighters[i][j].isEqual(*champs[i][0]) && !champs[i][1]->GetHasFight() && !champs[i][1]->GetWait() && rng::randd(0.0, 1.0, false) < .8) {
 
 					//std::cout << "\"unification\" title fight" << std::endl;
 
@@ -227,7 +236,7 @@ void Roster::FightFinder()
 
 					continue;
 
-				}else if (Fighters[i][j].isEqual(*champs[i][1]) && !champs[i][0]->GetHasFight() && rng::randd(0.0, 1.0, false) < .8) {
+				}else if (Fighters[i][j].isEqual(*champs[i][1]) && !champs[i][0]->GetHasFight() && !champs[i][0]->GetWait() && rng::randd(0.0, 1.0, false) < .8) {
 
 					//std::cout << "\"unification\" title fight" << std::endl;
 
@@ -268,6 +277,9 @@ void Roster::FightFinder()
 
 					if (Fighters[i][k].GetHasFight()) continue;
 
+					//test if figher is waiting
+					if (Fighters[i][k].GetWait()) continue;
+
 					// will not accept fighter with less than 60 overall
 					if (Fighters[i][k].overall < 60) break;
 
@@ -303,6 +315,9 @@ void Roster::FightFinder()
 						//test if fighter already has fight scheduled and skip
 						if (Fighters[i][k].GetHasFight()) continue;
 
+						//test if figher is waiting
+						if (Fighters[i][k].GetWait()) continue;
+
 						//make sure fighter isnt a prospect and doesn't have a fight scheduled
 						if (!Fighters[i][k].GetProspect() && !Fighters[i][k].GetHasFight()) {
 
@@ -326,7 +341,7 @@ void Roster::FightFinder()
 				for (int k = 0; k < NUMFIGHTERS; k++) {
 
 					//Prospect will have 85% chance of taking fight
-					if ((Fighters[i][j].overall > (Fighters[i][k].overall + ovrDif)) && !Fighters[i][k].GetHasFight() && rng::randd(0.0, 1.0, false) < .85) {
+					if ((Fighters[i][j].overall > (Fighters[i][k].overall + ovrDif)) && !Fighters[i][k].GetHasFight() && !Fighters[i][k].GetWait() && rng::randd(0.0, 1.0, false) < .85) {
 
 						//std::cout << "Prospect fight" << std::endl;
 
@@ -345,7 +360,7 @@ void Roster::FightFinder()
 			}
 
 			//Fighters with high success close to retirement will look for easier "money fights"
-			if (Fighters[i][j].GetAttribute(6, false, 0) > 35 && Fighters[i][j].GetAttribute(9, false, 0) > 80 && !Fighters[i][j].GetHasFight()) {
+			if (Fighters[i][j].GetAttribute(6, false, 0) > 35 && Fighters[i][j].GetAttribute(9, false, 0) > 80 && !Fighters[i][j].GetHasFight() && !Fighters[i][j].GetWait()) {
 
 				//Find fighter with high popularity and lower overall
 				for (int k = 0; k < NUMFIGHTERS; k++) {
@@ -354,7 +369,7 @@ void Roster::FightFinder()
 
 					//Popularity cutoff is 80; Overall difference must be >5
 					//Fighter has a good chance of taking this fight as it will be very profitable (90%)
-					if (Fighters[i][k].GetAttribute(3, false, 0) > 80 && (Fighters[i][j].overall - ovrDif) >= Fighters[i][k].overall && rng::randd(0.0, 1.0, false) < .90 && !Fighters[i][k].GetHasFight()) {
+					if (Fighters[i][k].GetAttribute(3, false, 0) > 80 && (Fighters[i][j].overall - ovrDif) >= Fighters[i][k].overall && rng::randd(0.0, 1.0, false) < .90 && !Fighters[i][k].GetHasFight() && !Fighters[i][k].GetWait()) {
 
 						//std::cout << "Late career money fight" << std::endl;
 
@@ -374,14 +389,14 @@ void Roster::FightFinder()
 			//Top level fighters will attempt to find fights close in ovr(+-10)
 			//They will also take fights more rarely than other fighters
 			//*top level includes 70+ overall
-			if (Fighters[i][j].overall > 60 && !Fighters[i][j].GetHasFight()) {
+			if (Fighters[i][j].overall > 60 && !Fighters[i][j].GetHasFight() && !Fighters[i][j].GetWait()) {
 
 				for (int k = 0; k < NUMFIGHTERS; k++) {
 
 					if (Fighters[i][j].isEqual(Fighters[i][k])) continue;
 
 					//50% chance for fight to make
-					if ((Fighters[i][j].overall - Fighters[i][k].overall < rng::randd(8.0, 12.0, false) || Fighters[i][k].overall - Fighters[i][j].overall < rng::randd(8.0, 12.0, false)) && !Fighters[i][k].GetHasFight() && rng::randd(0.0,1.0,false) > .5) {
+					if ((Fighters[i][j].overall - Fighters[i][k].overall < rng::randd(8.0, 12.0, false) || Fighters[i][k].overall - Fighters[i][j].overall < rng::randd(8.0, 12.0, false)) && !Fighters[i][k].GetHasFight() && !Fighters[i][k].GetWait() && rng::randd(0.0,1.0,false) > .5) {
 
 						//std::cout << "Top Level Fight" << std::endl;
 
@@ -400,14 +415,14 @@ void Roster::FightFinder()
 
 			//All other fighters will match up evenly and have a pretty short time to fight
 			//and a high chance of acceptence
-			if(!Fighters[i][j].GetHasFight()) {
+			if (!Fighters[i][j].GetHasFight() && !Fighters[i][j].GetWait()) {
 
 				for (int k = 0; k < NUMFIGHTERS; k++) {
 
 					if (Fighters[i][j].isEqual(Fighters[i][k])) continue;
 
 					//50% chance for fight to make
-					if ((Fighters[i][j].overall - Fighters[i][k].overall < rng::randd(8.0, 12.0, false) || Fighters[i][k].overall - Fighters[i][j].overall < rng::randd(8.0, 12.0, false)) && !Fighters[i][k].GetHasFight() && rng::randd(0.0, 1.0, false) < .7) {
+					if ((Fighters[i][j].overall - Fighters[i][k].overall < rng::randd(8.0, 12.0, false) || Fighters[i][k].overall - Fighters[i][j].overall < rng::randd(8.0, 12.0, false)) && !Fighters[i][k].GetHasFight() && !Fighters[i][k].GetWait() && rng::randd(0.0, 1.0, false) < .7) {
 
 						//std::cout << "Mid-Low Level Fight" << std::endl;
 

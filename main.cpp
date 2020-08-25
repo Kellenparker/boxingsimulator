@@ -18,6 +18,8 @@ int main()
 
 	int state = 0;
 
+	//std::cin.get();
+
 	Roster league;
 
 	//game loop

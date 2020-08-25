@@ -128,6 +128,9 @@ void Fighter::CreateFighter(int ovr, int wght, int index)
 	//hasfight
 	Fighter::hasFight = false;
 
+	//wait time
+	Fighter::waitTime = rng::randd(0.0, 5.0, false);
+
 	//lastfight
 	Fighter::lastFight = false;
 
@@ -239,6 +242,9 @@ void Fighter::NewFighter(int wght, int index)
 	//hasfight
 	Fighter::hasFight = false;
 
+	//waitTime
+	Fighter::waitTime = 0;
+
 	//lastfight
 	Fighter::lastFight = false;
 
@@ -307,6 +313,9 @@ void Fighter::Progress()
 
 	for (int i = 0; i <= 8; i++)
 		Fighter::changes[i] = 0;
+
+	//wait time
+	Fighter::waitTime--;
 
 	int current = 0;
 	float amb = (Fighter::motivation / 100.0) + (Fighter::xfac / 100.0);
@@ -723,6 +732,11 @@ const bool Fighter::GetHasFight()
 	return Fighter::hasFight;
 }
 
+const bool Fighter::GetWait()
+{
+	return Fighter::waitTime > 0;
+}
+
 const bool Fighter::GetChamp()
 {
 	return Fighter::isChamp;
@@ -785,6 +799,9 @@ void Fighter::AddDamage(int dam)
 
 	Fighter::damage += dam / 7;
 	changes[9] = dam / 7;
+
+	float maxWait = 10.0;
+	Fighter::waitTime = rng::randd(0.0, maxWait * (float(dam) / 100.0), false);
 
 }
 

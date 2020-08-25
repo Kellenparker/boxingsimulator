@@ -56,6 +56,9 @@ class Fighter
 	//next fight status
 	bool hasFight;
 
+	//wait period before fighting again
+	int waitTime;
+
 	//next fight is last fight
 	bool lastFight;
 
@@ -127,6 +130,9 @@ public:
 	// GetHasFight: Returns true if fighter already has a fight
 	const bool GetHasFight();
 
+	// GetWait: returns true if fighter is waiting for fight
+	const bool GetWait();
+
 	// GetChamp: Returns true if fighter is a champion
 	const bool GetChamp();
 
@@ -143,7 +149,7 @@ public:
 	// Result: 0 = win; 1 = loss; 2 = draw
 	void FightResult(int result, int score);
 
-	// AddDamage: Adds damage based on how tough fight was
+	// AddDamage: Adds damage based on how tough fight was and determines wait time until accepting next fight
 	void AddDamage(int dam);
 
 	//overall
