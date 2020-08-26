@@ -917,7 +917,6 @@ void Fighter::PrintAttribute(int att, int val, int change, bool newLine)
 
 	std::string attributes[] = { "OVR", "WGT", "PRO", "POP" , "BEL" , "DAM" , "AGE" , "CAR" , "POT" , "SUC" , "LON" , "MOT" , "FIG" , "WIN", "LOS", "DRW" , "RCH" , "HGT" , "STA" , "HTH" , "PWR" , "SPD", "TIM", "DEF", "FWK", "ERN" };
 
-
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	int k = 15;
 
@@ -961,7 +960,7 @@ void Fighter::vPrint()
 	Fighter::PrintAttribute(9, Fighter::success, 0, false);
 	Fighter::PrintAttribute(10, Fighter::longevity, changes[7], false);
 	Fighter::PrintAttribute(11, Fighter::motivation, changes[6], false);
-	Fighter::PrintAttribute(35, Fighter::earnings, 0, true);
+	Fighter::PrintAttribute(25, Fighter::earnings, 0, true);
 	Fighter::PrintAttribute(5, Fighter::damage, changes[9], false);
 	Fighter::PrintAttribute(18, Fighter::stamina, changes[0], false);
 	Fighter::PrintAttribute(19, Fighter::health, 0, false);

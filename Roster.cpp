@@ -11,7 +11,7 @@ const int size = 9;
 
 int retirements[9];
 
-static const int NUMFIGHTERS = 10;
+static const int NUMFIGHTERS = 100;
 
 std::vector<FightCard> FightCardVec;
 
@@ -99,15 +99,12 @@ void Roster::Progress()
 
 	//Fight Card
 	//Make sure it isn't the first month
-	if (Roster::firstMonth)
-		Roster::firstMonth = false;
+	if (Roster::firstMonth) Roster::firstMonth = false;
 	else {
 
 		std::cout << current << std::endl;
 
 		FightCardVec[current].RunCard(champs);
-
-		//see if champs won or lost their fights
 
 	}
 
@@ -455,7 +452,7 @@ void Roster::FightMake(Fighter* f1, Fighter* f2, int wait)
 
 	int index = 0;
 
-	if (wait + current > 9) index = (wait - (9 - current));
+	if (wait + current > 9) index = (wait - (10 - current));
 	else index = current + wait;
 
 	FightCardVec[index].AddFight(f1, f2);

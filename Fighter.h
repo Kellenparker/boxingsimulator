@@ -118,6 +118,9 @@ public:
 	// PrintFighter: Prints fighter information to console
 	void PrintFighter();
 
+	// vPrintFighter: Provides a verbose printout of the fighter
+	void vPrint();
+
 	// GetName: Prints fighter name
 	void GetName();
 
@@ -160,8 +163,5 @@ public:
 
 	//isEqual: returns if classes are the same
 	bool isEqual(const Fighter &c);
-	
-	// vPrintFighter: Provides a verbose printout of the fighter
-	void vPrint();
 };
 
