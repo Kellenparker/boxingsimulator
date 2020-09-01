@@ -53,6 +53,10 @@ class Fighter
 	//change array
 	int changes[10];
 
+	//last two fight results
+	//0: win, 1: loss, 2: draw, 3: title win, -1: n/a
+	int lasttwo[2];
+
 	//next fight status
 	bool hasFight;
 
@@ -111,6 +115,9 @@ public:
 	// IncrementFigherAge: Adds one year to figher's age
 	// If true; Fighter has retired
 	bool IncrementFighterAge();
+
+	// WeightSwitch: Determines whether the fighter will switch weight
+	bool WeightSwitch();
 
 	// CalculateOverall: Executes overall formula stores in RandFighter::Overall
 	void CalculateOverall();

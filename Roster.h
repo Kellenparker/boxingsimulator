@@ -21,6 +21,7 @@ public:
     void Progress();
     int GetOverall();
     void IncrementAge();
+    void MoveFighter(int old, int fighter);
     void PrintWeightClass(int w);
     void FightFinder();
     void FightMake(Fighter *f1, Fighter *f2, int wait);

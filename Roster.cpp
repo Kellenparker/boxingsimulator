@@ -11,7 +11,7 @@ const int size = 9;
 
 int retirements[9];
 
-static const int NUMFIGHTERS = 100;
+static const int NUMFIGHTERS = 10;
 
 std::vector<FightCard> FightCardVec;
 
@@ -81,6 +81,9 @@ void Roster::Progress()
 	{
 		for (int j = 0; j < NUMFIGHTERS; j++) {
 			Fighters[i][j].Progress();
+			//heavyweights cannot move up in weight
+			if (i == 8) continue;
+			if (Fighters[i][j].WeightSwitch()) MoveFighter(i, j);
 		}
 		std::sort(Fighters[i].begin(), Fighters[i].end(), std::greater<Fighter>());
 	}
@@ -131,6 +134,37 @@ void Roster::IncrementAge()
 				std::cout << "---------------------------------------------" << std::endl;
 			}
 
+}
+
+void Roster::MoveFighter(int old, int fighter)
+{
+	int newClass = old + 1;
+
+	//find fighter in new weight class to delete
+	//fighter will be lowest rated non-prospect
+	for (int i = NUMFIGHTERS - 1; i >= 0; i--) {
+		if (Fighters[newClass][i].GetProspect()) continue;
+		
+		// retire fighter
+		std::cout << "RETIREMENT--DUE--TO----MOVEMENT--------------" << std::endl;
+		Fighters[newClass][i].vPrint();
+		std::cout << "---------------------------------------------" << std::endl;
+		retirements[newClass]++;
+		Retired.push_back(Fighters[newClass][i]);
+
+		// move fighter into class
+		Fighters[newClass][i] = Fighters[old][fighter];
+		Fighters[newClass][i].GetName();
+		Fighters[old][fighter].GetName();
+		std::cout << "FIGHTER----THAT---MOVED----------------------" << std::endl;
+		Fighters[newClass][i].vPrint();
+		std::cout << "---------------------------------------------" << std::endl;
+		
+		//make new fighter in old weight class
+		Fighters[old][fighter].NewFighter(classWeights[old], old);
+
+		return;
+	}
 }
 
 void Roster::PrintWeightClass(int w)

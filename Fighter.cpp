@@ -1,6 +1,8 @@
 
 #include "Fighter.h"
 
+static const int classWeights[] = { 112, 118, 126, 135, 147, 160, 175, 200, 220 };
+
 Fighter::Fighter()
 {
 
@@ -93,6 +95,14 @@ void Fighter::CreateFighter(int ovr, int wght, int index)
 
 	//losses
 	Fighter::losses = fights - (wins + draws);
+
+	//lasttwo
+	//takes win/loss ratio and uses that to randomly determine last two 
+	float ratio = 1.0 - (float(losses) / float(wins));
+	for (int i = 0; i < 2; i++) {
+		if (rng::randd(0.0, 1.0, false) < ratio) lasttwo[i] = 0;
+		else lasttwo[i] = 1;
+	}
 
 	//earnings
 	Fighter::earnings = fights * 30 * overall;
@@ -222,6 +232,10 @@ void Fighter::NewFighter(int wght, int index)
 
 	//losses
 	Fighter::losses = 0;
+
+	//lasttwo
+	Fighter::lasttwo[0] = -1;
+	Fighter::lasttwo[1] = -1;
 
 	//earnings
 	Fighter::earnings = 0;
@@ -778,18 +792,23 @@ void Fighter::AddEarnings(int earn)
 void Fighter::FightResult(int result, int score)
 {
 
+	Fighter::lasttwo[0] = Fighter::lasttwo[1];
 	switch (result) {
 	case 0: {
 		Fighter::wins++;
 		Fighter::popularity += 2;
+		if (Fighter::isChamp) Fighter::lasttwo[1] = 3;
+		else Fighter::lasttwo[1] = 0;
 	}
 	case 1: {
 		Fighter::losses++;
 		Fighter::popularity -= 1;
+		Fighter::lasttwo[1] = 1;
 	}
 	case 2: {
 		Fighter::draws++;
 		Fighter::popularity += 1;
+		Fighter::lasttwo[1] = 2;
 	}
 	}
 }
@@ -875,6 +894,49 @@ bool Fighter::IncrementFighterAge()
 	}
 
 	return false;
+}
+
+bool Fighter::WeightSwitch()
+{
+	//heavyweights cannot move up in weight
+	if (weightIndex == 8) return false;
+
+	bool switchWeight = false;
+
+	//if the fighter is a dominant champ
+	if (lasttwo[0] == 3 && lasttwo[1] == 3 && (rng::randd(0.0, 1.0, false) < .2)) {
+		std::cout << "WEIGHT SWITCH 1" << std::endl;
+		switchWeight = true;
+	}
+	
+	//if the fighter is on a losing streak and thinks they can do better (overall > 50)
+	if(lasttwo[0] == 1 && lasttwo[1] == 1 && Fighter::overall > 50 && (rng::randd(0.0, 1.0, false) < .2)) {
+		std::cout << "WEIGHT SWITCH 2" << std::endl;
+		switchWeight = true;
+	}
+
+	//if the fighter has low motivation
+	if (motivation <= 25 && (rng::randd(0.0, 1.0, false) < .4)) {
+		std::cout << "WEIGHT SWITCH 3" << std::endl;
+		switchWeight = true;
+	}
+
+	//if the fighter is aging and lost last fight
+	if(peakStatus == 2 && lasttwo[1] == 1 && Fighter::overall > 40 && (rng::randd(0.0, 1.0, false) < .4)) {
+		std::cout << "WEIGHT SWITCH 4" << std::endl;
+		switchWeight = true;
+	}
+
+	if (switchWeight) {
+
+		Fighter::weightIndex++;
+		Fighter::weight = classWeights[weightIndex];
+		return true;
+
+	}
+
+	return false;
+
 }
 
 void Fighter::CalculateOverall()
