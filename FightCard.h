@@ -30,11 +30,11 @@ public:
 
 	FightCard();
 
-	void AddFight(Fighter *fighter1, Fighter *fighter2);
+	void AddFight(Fighter* fighter1, Fighter* fighter2);
 
 	void RunCard(Fighter* champList[][2]);
 
-	fightSt RunFight(Fighter *f1, Fighter *f2);
+	fightSt RunFight(Fighter* f1, Fighter* f2);
 
 	void FightPrint(int index, int time);
 
@@ -45,6 +45,4 @@ public:
 private:
 
 	float detHype();
-
 };
-

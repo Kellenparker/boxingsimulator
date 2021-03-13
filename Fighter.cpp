@@ -1,16 +1,13 @@
-
 #include "Fighter.h"
 
 static const int classWeights[] = { 112, 118, 126, 135, 147, 160, 175, 200, 220 };
 
 Fighter::Fighter()
 {
-
 }
 
 void Fighter::CreateFighter(int ovr, int wght, int index)
 {
-
 	Fighter::weight = wght;
 	Fighter::weightIndex = index;
 
@@ -97,7 +94,7 @@ void Fighter::CreateFighter(int ovr, int wght, int index)
 	Fighter::losses = fights - (wins + draws);
 
 	//lasttwo
-	//takes win/loss ratio and uses that to randomly determine last two 
+	//takes win/loss ratio and uses that to randomly determine last two
 	float ratio = 1.0 - (float(losses) / float(wins));
 	for (int i = 0; i < 2; i++) {
 		if (rng::randd(0.0, 1.0, false) < ratio) lasttwo[i] = 0;
@@ -112,8 +109,6 @@ void Fighter::CreateFighter(int ovr, int wght, int index)
 	if (Fighter::success > 100) Fighter::success = 100;
 	else if (Fighter::success < 0) Fighter::success = 0;
 
-
-
 	//popularity
 	int personality = rng::randd(0.0, 100.0, false);
 	int prospect = 0;
@@ -121,10 +116,9 @@ void Fighter::CreateFighter(int ovr, int wght, int index)
 	Fighter::popularity = (Fighter::success / 25.0) + prospect + (Fighter::overall / 25.0) + rng::randd(0.0, 25.0, false);
 	if (personality > Fighter::popularity)Fighter::popularity = personality;
 
-
 	//damage
 	Fighter::damage = (((Fighter::wins * rng::randd(1, 1.5, false)) + (Fighter::losses * rng::randd(2, 4, false)) + (Fighter::draws * rng::randd(1.5, 2, false))));
-	
+
 	//peak status
 	Fighter::peakStatus = Fighter::DeterminePeak();
 
@@ -143,7 +137,6 @@ void Fighter::CreateFighter(int ovr, int wght, int index)
 
 	//lastfight
 	Fighter::lastFight = false;
-
 }
 
 void Fighter::NewFighter(int wght, int index)
@@ -261,12 +254,10 @@ void Fighter::NewFighter(int wght, int index)
 
 	//lastfight
 	Fighter::lastFight = false;
-
 }
 
 std::string Fighter::SelectName(bool last)
 {
-
 	std::ifstream names;
 	std::string line = "";
 
@@ -296,20 +287,18 @@ std::string Fighter::SelectName(bool last)
 		}
 		return line;
 	}
-
 }
 
 int Fighter::DeterminePeak()
 {
 	if (Fighter::peakStatus == 2 && Fighter::age > Fighter::peakStart)
 		return 2;
-	
+
 	if (Fighter::age < Fighter::peakStart)
 		return 0;
 	else if (Fighter::age == Fighter::peakStart)
 		return 1;
 	else {
-
 		int peakLength = Fighter::age - Fighter::peakStart;
 		int peakEndFactor = rng::randd(peakLength * 3, peakLength * 10, true);
 		//std::cout << peakEndFactor + (Fighter::age / 3) << " > " << (Fighter::longevity + Fighter::motivation) / 2.5 << std::endl;
@@ -317,14 +306,11 @@ int Fighter::DeterminePeak()
 			return 2;
 		}
 		else return 1;
-
 	}
-
 }
 
 void Fighter::Progress()
 {
-
 	for (int i = 0; i <= 8; i++)
 		Fighter::changes[i] = 0;
 
@@ -339,13 +325,11 @@ void Fighter::Progress()
 	//std::cout << "rubber band effect: " << band << std::endl;
 	if (band > .75 || band <= 0) band = .75;
 
-
 	if (Fighter::peakStatus == 0) {
-
 		//--phys
 
 		//stamina
-		current = ((amb / (band*2)) * pow(rng::randd(0.0, 1.0, false), 3.0));
+		current = ((amb / (band * 2)) * pow(rng::randd(0.0, 1.0, false), 3.0));
 		if ((current > 0 && Fighter::stamina >= 100) || ((Fighter::stamina + current) >= 100))
 			Fighter::stamina = 100;
 		else if ((Fighter::stamina + current) >= 100) {
@@ -356,7 +340,7 @@ void Fighter::Progress()
 			Fighter::stamina += current;
 			changes[0] = current;
 		}
-		
+
 		//speed
 		current = ((amb / (band * 2)) * pow(rng::randd(0.0, 1.0, false), 3.0));
 		if ((current > 0 && Fighter::speed >= 100) || ((Fighter::speed + current) >= 100))
@@ -371,7 +355,7 @@ void Fighter::Progress()
 		}
 
 		//--mental
-		
+
 		//timing
 		current = ((amb / band) * pow(rng::randd(0.0, 1.0, false), 3.0));
 		if ((current > 0 && Fighter::timing >= 100) || ((Fighter::timing + current) >= 100))
@@ -414,7 +398,7 @@ void Fighter::Progress()
 		//--ambition
 
 		//motivation
-		current = ((.8/1.0) * pow(rng::randd(-1.0, 1.0, false), 3.0));
+		current = ((.8 / 1.0) * pow(rng::randd(-1.0, 1.0, false), 3.0));
 		if ((current > 0 && Fighter::motivation >= 100) || ((Fighter::motivation + current) >= 100))
 			Fighter::motivation = 100;
 		else if ((Fighter::motivation + current) >= 100) {
@@ -425,14 +409,12 @@ void Fighter::Progress()
 			Fighter::motivation += current;
 			changes[6] = current;
 		}
-
 	}
 	else if (Fighter::peakStatus == 1) {
-
 		//--phys
 
 		//stamina
-		current = ((1.05/amb) * pow(rng::randd(-1.0, 1.0, false), 3.0));
+		current = ((1.05 / amb) * pow(rng::randd(-1.0, 1.0, false), 3.0));
 		if ((current > 0 && Fighter::stamina >= 100) || ((Fighter::stamina + current) >= 100))
 			Fighter::stamina = 100;
 		else if ((Fighter::stamina + current) >= 100) {
@@ -445,7 +427,7 @@ void Fighter::Progress()
 		}
 
 		//speed
-		current = ((1.05/amb) * pow(rng::randd(-1.0, 1.0, false), 3.0));
+		current = ((1.05 / amb) * pow(rng::randd(-1.0, 1.0, false), 3.0));
 		if ((current > 0 && Fighter::speed >= 100) || ((Fighter::speed + current) >= 100))
 			Fighter::speed = 100;
 		else if ((Fighter::speed + current) >= 100) {
@@ -512,10 +494,8 @@ void Fighter::Progress()
 			Fighter::motivation += current;
 			changes[6] = current;
 		}
-
 	}
 	else if (Fighter::peakStatus == 2) {
-
 		float ageFactor = pow((Fighter::career / 13.0), 2.5) + (100.0 / Fighter::longevity);
 		//std::cout << "ageFactor: " << ageFactor << std::endl;
 
@@ -546,10 +526,10 @@ void Fighter::Progress()
 			changes[1] = 100 - Fighter::speed;
 			Fighter::speed = 100;
 		}
-		else if ((Fighter::speed + current) <= 0){
+		else if ((Fighter::speed + current) <= 0) {
 			changes[1] = Fighter::speed;
 			Fighter::speed = 0;
-		} 
+		}
 		else {
 			Fighter::speed += current;
 			changes[1] = current;
@@ -610,18 +590,15 @@ void Fighter::Progress()
 			Fighter::motivation += current;
 			changes[6] = current;
 		}
-
 	}
 
 	int temp = Fighter::overall;
 	Fighter::CalculateOverall();
 	changes[8] = Fighter::overall - temp;
-
 }
 
 int Fighter::GetAttribute(int attribute, bool change, int changeValue)
 {
-
 	if (attribute < 0 || attribute > 24)
 		throw "attribute out of range";
 
@@ -633,12 +610,12 @@ int Fighter::GetAttribute(int attribute, bool change, int changeValue)
 			break;
 		case 1: Fighter::weight = changeValue;
 			break;
-		//case 2: Fighter::promotion = changeValue;
-			//break;
-		//case 3: Fighter::popularity = changeValue;
-			//break;
-		//case 4: Fighter::belts = changeValue;
-			//break;
+			//case 2: Fighter::promotion = changeValue;
+				//break;
+			//case 3: Fighter::popularity = changeValue;
+				//break;
+			//case 4: Fighter::belts = changeValue;
+				//break;
 		case 5: Fighter::damage = changeValue;
 			break;
 		case 6: Fighter::age = changeValue;
@@ -689,12 +666,12 @@ int Fighter::GetAttribute(int attribute, bool change, int changeValue)
 			break;
 		case 1: return Fighter::weight;
 			break;
-		//case 2: return Fighter::promotion;
-			//break;
+			//case 2: return Fighter::promotion;
+				//break;
 		case 3: return Fighter::popularity;
 			break;
-		//case 4: return Fighter::belts;
-			//break;
+			//case 4: return Fighter::belts;
+				//break;
 		case 5: return Fighter::damage;
 			break;
 		case 6: return Fighter::age;
@@ -738,7 +715,6 @@ int Fighter::GetAttribute(int attribute, bool change, int changeValue)
 		}
 
 	return NULL;
-
 }
 
 const bool Fighter::GetHasFight()
@@ -791,7 +767,6 @@ void Fighter::AddEarnings(int earn)
 
 void Fighter::FightResult(int result, int score)
 {
-
 	Fighter::lasttwo[0] = Fighter::lasttwo[1];
 	switch (result) {
 	case 0: {
@@ -815,13 +790,11 @@ void Fighter::FightResult(int result, int score)
 
 void Fighter::AddDamage(int dam)
 {
-
 	Fighter::damage += dam / 7;
 	changes[9] = dam / 7;
 
 	float maxWait = 10.0;
 	Fighter::waitTime = rng::randd(0.0, maxWait * (float(dam) / 100.0), false);
-
 }
 
 bool Fighter::operator > (const Fighter& str) const
@@ -829,9 +802,10 @@ bool Fighter::operator > (const Fighter& str) const
 	return (Fighter::overall > str.overall);
 }
 
-bool Fighter::isEqual(const Fighter &c)
+bool Fighter::isEqual(const Fighter& c)
 {
-	//if (this == &c) std::cout << "is equal---------------" << std::endl;
+	//if (this == &c) std::cout << "is equal---------------"<< std::endl;
+	//GetName();
 	return this == &c;
 }
 
@@ -908,9 +882,9 @@ bool Fighter::WeightSwitch()
 		std::cout << "WEIGHT SWITCH 1" << std::endl;
 		switchWeight = true;
 	}
-	
+
 	//if the fighter is on a losing streak and thinks they can do better (overall > 50)
-	if(lasttwo[0] == 1 && lasttwo[1] == 1 && Fighter::overall > 50 && (rng::randd(0.0, 1.0, false) < .2)) {
+	if (lasttwo[0] == 1 && lasttwo[1] == 1 && Fighter::overall > 50 && (rng::randd(0.0, 1.0, false) < .2)) {
 		std::cout << "WEIGHT SWITCH 2" << std::endl;
 		switchWeight = true;
 	}
@@ -922,21 +896,18 @@ bool Fighter::WeightSwitch()
 	}
 
 	//if the fighter is aging and lost last fight
-	if(peakStatus == 2 && lasttwo[1] == 1 && Fighter::overall > 40 && (rng::randd(0.0, 1.0, false) < .4)) {
+	if (peakStatus == 2 && lasttwo[1] == 1 && Fighter::overall > 40 && (rng::randd(0.0, 1.0, false) < .4)) {
 		std::cout << "WEIGHT SWITCH 4" << std::endl;
 		switchWeight = true;
 	}
 
 	if (switchWeight) {
-
 		Fighter::weightIndex++;
 		Fighter::weight = classWeights[weightIndex];
 		return true;
-
 	}
 
 	return false;
-
 }
 
 void Fighter::CalculateOverall()
@@ -945,12 +916,12 @@ void Fighter::CalculateOverall()
 		Fighter::overall = ((Fighter::stamina * 2) + (Fighter::health * 1) + (Fighter::power * 3) + (Fighter::timing * 2) + (Fighter::defense * 2)) / 10;
 	else
 		Fighter::overall = ((Fighter::stamina * 2) + (Fighter::health * 1) + (Fighter::speed * 3) + (Fighter::timing * 2) + (Fighter::defense * 2)) / 10;
-
 }
 
 void Fighter::PrintFighter()
 {
-	std::cout << Fighter::first << " " << Fighter::last << ": " << std::endl;
+	std::cout << Fighter::first << " " << Fighter::last << ": ";
+	if (Fighter::isChamp) std::cout << "CHAMP" << std::endl;
 	std::cout << "OVR: " << Fighter::overall << " ";
 	std::cout << "CAR: " << Fighter::career << " ";
 	std::cout << "PKS: " << Fighter::peakStart << " ";
@@ -974,22 +945,21 @@ void Fighter::PrintFighter()
 	std::cout << "-" << Fighter::draws << std::endl;
 }
 
-void Fighter::PrintAttribute(int att, int val, int change, bool newLine) 
+void Fighter::PrintAttribute(int att, int val, int change, bool newLine)
 {
-
 	std::string attributes[] = { "OVR", "WGT", "PRO", "POP" , "BEL" , "DAM" , "AGE" , "CAR" , "POT" , "SUC" , "LON" , "MOT" , "FIG" , "WIN", "LOS", "DRW" , "RCH" , "HGT" , "STA" , "HTH" , "PWR" , "SPD", "TIM", "DEF", "FWK", "ERN" };
 
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	int k = 15;
 
-	if (change > 0) 
+	if (change > 0)
 		k = 10;
 	else if (change < 0)
 		k = 12;
 
 	SetConsoleTextAttribute(hConsole, k);
 
-	std::cout <<  attributes[att];
+	std::cout << attributes[att];
 	std::cout << ": " << val << " (";
 	if (change > 0) std::cout << "+";
 	std::cout << change;
@@ -1003,7 +973,6 @@ void Fighter::PrintAttribute(int att, int val, int change, bool newLine)
 		std::cout << std::endl;
 	else
 		std::cout << " -- ";
-
 }
 
 void Fighter::vPrint()
@@ -1034,10 +1003,8 @@ void Fighter::vPrint()
 
 	std::cout << Fighter::wins << "-" << Fighter::losses;
 	std::cout << "-" << Fighter::draws << std::endl;
-	 
 }
 
 Fighter::~Fighter()
 {
-
 }

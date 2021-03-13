@@ -42,7 +42,7 @@ class Fighter
 	//record (depends on age mostly)
 	int fights;
 	int wins, losses, draws;
-	
+
 	//earnings made from fights
 	int earnings;
 
@@ -169,6 +169,5 @@ public:
 	bool operator > (const Fighter& str) const;
 
 	//isEqual: returns if classes are the same
-	bool isEqual(const Fighter &c);
+	bool isEqual(const Fighter& c);
 };
-

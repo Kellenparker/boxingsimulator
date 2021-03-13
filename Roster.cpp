@@ -52,7 +52,6 @@ Roster::Roster()
 		champs[i][1]->GetName();
 		std::cout << std::endl;
 	}
-
 }
 
 int Roster::GetOverall()
@@ -71,7 +70,6 @@ int Roster::GetOverall()
 		return rng::randd(50.0, 60.0, false);
 	else
 		return rng::randd(0.0, 40.0, false);
-
 }
 
 void Roster::Progress()
@@ -91,35 +89,28 @@ void Roster::Progress()
 	//Matchmaking
 	FightFinder();
 
-
 	//Print Card --for debugging
 	for (int i = 0; i < 10; i++) {
-
 		std::cout << "index = " << i << std::endl;
 		FightCardVec[i].PrintCard();
-
 	}
 
 	//Fight Card
 	//Make sure it isn't the first month
 	if (Roster::firstMonth) Roster::firstMonth = false;
 	else {
-
 		std::cout << current << std::endl;
 
 		FightCardVec[current].RunCard(champs);
-
 	}
 
 	if (current++ >= 9) current = 0;
 
 	PercentFight();
-
 }
 
 void Roster::IncrementAge()
 {
-
 	for (int i = 0; i < size; i++)
 		for (int j = 0; j < NUMFIGHTERS; j++)
 			if (Fighters[i][j].IncrementFighterAge()) {
@@ -133,7 +124,6 @@ void Roster::IncrementAge()
 				Fighters[i][j].vPrint();
 				std::cout << "---------------------------------------------" << std::endl;
 			}
-
 }
 
 void Roster::MoveFighter(int old, int fighter)
@@ -144,7 +134,7 @@ void Roster::MoveFighter(int old, int fighter)
 	//fighter will be lowest rated non-prospect
 	for (int i = NUMFIGHTERS - 1; i >= 0; i--) {
 		if (Fighters[newClass][i].GetProspect()) continue;
-		
+
 		// retire fighter
 		std::cout << "RETIREMENT--DUE--TO----MOVEMENT--------------" << std::endl;
 		Fighters[newClass][i].vPrint();
@@ -159,7 +149,7 @@ void Roster::MoveFighter(int old, int fighter)
 		std::cout << "FIGHTER----THAT---MOVED----------------------" << std::endl;
 		Fighters[newClass][i].vPrint();
 		std::cout << "---------------------------------------------" << std::endl;
-		
+
 		//make new fighter in old weight class
 		Fighters[old][fighter].NewFighter(classWeights[old], old);
 
@@ -169,19 +159,14 @@ void Roster::MoveFighter(int old, int fighter)
 
 void Roster::PrintWeightClass(int w)
 {
-
 	for (int i = 0; i < NUMFIGHTERS; i++)
 		Fighters[w][i].vPrint();
-
 }
 
 void Roster::FightFinder()
 {
-
 	for (int i = 0; i < size; i++) {
-
 		for (int j = 0; j < NUMFIGHTERS; j++) {
-			
 			//test if fighter already has fight scheduled and skip
 			if (Fighters[i][j].GetHasFight()) continue;
 
@@ -189,68 +174,62 @@ void Roster::FightFinder()
 			if (Fighters[i][j].GetWait()) continue;
 
 			//if fighter is a champ, find top contender, or older popular fighter
-			//if belts are unified 
+			//if belts are unified
 			if (champs[i][1] == NULL && Fighters[i][j].isEqual(*champs[i][0])) {
-				
+
 				//try to get a money fight first
 				for (int k = NUMFIGHTERS - 1; k >= 0; k--) {
-
 					//make sure oponent isnt himself
 					if (!Fighters[i][k].GetChamp()) {
-
 						//test if fighter already has fight scheduled and skip
 						if (Fighters[i][k].GetHasFight()) continue;
 
 						//test if figher is waiting
 						if (Fighters[i][k].GetWait()) continue;
 
-						//check for money fight
-						if (Fighters[i][k].GetAttribute(3, 0, false) > 75 && !Fighters[i][k].GetProspect() && rng::randd(0.0,1.0,false) < .8) {
+						//test if fighter is themselves
+						if (Fighters[i][j].isEqual(Fighters[i][k])) continue;
 
-							//std::cout << "\"Money\" title fight" << std::endl;
+						//check for money fight
+						if (Fighters[i][k].GetAttribute(3, 0, false) > 75 && !Fighters[i][k].GetProspect() && rng::randd(0.0, 1.0, false) < .8) {
+							std::cout << "\"Money\" title fight" << std::endl;
 
 							//So fight time will be between 3-4 months
 							FightMake(&Fighters[i][j], &Fighters[i][k], rng::randd(3.0, 4.0, false));
 
 							break;
-
 						}
-
 					}
-
 				}
 
 				//secondly, a fight against a top contender will sell well too (>60 overall)
 				for (int k = NUMFIGHTERS - 1; k >= 0; k--) {
-
 					if (Fighters[i][k].GetHasFight()) continue;
-					
+
 					//test if figher is waiting
 					if (Fighters[i][k].GetWait()) continue;
 
 					// will not accept fighter with less than 60 overall
-					if (Fighters[i][k].overall < 60) break;
+					if (Fighters[i][k].overall < 60) break;;
 
 					//check for champ, prospect, or having fight
 					if (Fighters[i][k].GetChamp() || Fighters[i][k].GetProspect()) continue;
 
-					//see if fight gets accepted
-					if (rng::randd(0.0,1.0,false) > .50) {
+					//test if fighter is themselves
+					if (Fighters[i][j].isEqual(Fighters[i][k])) continue;
 
+					//see if fight gets accepted
+					if (rng::randd(0.0, 1.0, false) > .50) {
 						//std::cout << "\"top level\" title fight" << std::endl;
 
-						
 						//So fight time will be between 3-4 months
 						FightMake(&Fighters[i][j], &Fighters[i][k], rng::randd(3.0, 4.0, false));
 
 						break;
-
 					}
-
 				}
 
 				continue;
-
 			}
 
 			//if fighter is a champ that isn't unified
@@ -259,53 +238,46 @@ void Roster::FightFinder()
 				//try to get unification bout first
 				//make sure champ is not fighting himself
 				if (Fighters[i][j].isEqual(*champs[i][0]) && !champs[i][1]->GetHasFight() && !champs[i][1]->GetWait() && rng::randd(0.0, 1.0, false) < .8) {
-
-					//std::cout << "\"unification\" title fight" << std::endl;
+					//std::cout << "\"unification\" title fight1" << std::endl;
 
 					// fight time will be between 3-4 months
 					FightMake(&Fighters[i][j], champs[i][1], rng::randd(3.0, 4.0, false));
 
 					continue;
-
-				}else if (Fighters[i][j].isEqual(*champs[i][1]) && !champs[i][0]->GetHasFight() && !champs[i][0]->GetWait() && rng::randd(0.0, 1.0, false) < .8) {
-
+				}
+				else if (Fighters[i][j].isEqual(*champs[i][1]) && !champs[i][0]->GetHasFight() && !champs[i][0]->GetWait() && rng::randd(0.0, 1.0, false) < .8) {
 					//std::cout << "\"unification\" title fight" << std::endl;
 
 					// fight time will be between 3-4 months
 					FightMake(&Fighters[i][j], champs[i][0], rng::randd(3.0, 4.0, false));
 
 					continue;
-
 				}
 
-				//try to get a money fight 
+				//try to get a money fight
 				for (int k = NUMFIGHTERS - 1; k >= 0; k--) {
+					//test if fighter is themselves
+					if (Fighters[i][j].isEqual(Fighters[i][k])) continue;
 
 					//make sure oponent isnt himself
 					if (!Fighters[i][k].GetChamp()) {
-
 						//test if fighter already has fight scheduled and skip
 						if (Fighters[i][k].GetHasFight()) continue;
 
 						//check for money fight
 						if (Fighters[i][k].GetAttribute(3, 0, false) > 75 && !Fighters[i][k].GetProspect() && rng::randd(0.0, 1.0, false) < .8) {
-
 							//std::cout << "\"Money\" title fight" << std::endl;
 
 							//So fight time will be between 3-4 months
 							FightMake(&Fighters[i][j], &Fighters[i][k], rng::randd(3.0, 4.0, false));
 
 							break;
-
 						}
-
 					}
-
 				}
 
 				//secondly, a fight against a top contender will sell well too (>60 overall)
 				for (int k = NUMFIGHTERS - 1; k >= 0; k--) {
-
 					if (Fighters[i][k].GetHasFight()) continue;
 
 					//test if figher is waiting
@@ -317,41 +289,41 @@ void Roster::FightFinder()
 					//check for champ, prospect, or having fight
 					if (Fighters[i][k].GetChamp() || Fighters[i][k].GetProspect()) continue;
 
+					//test if fighter is themselves
+					if (Fighters[i][j].isEqual(Fighters[i][k])) continue;
+
 					//see if fight gets accepted
 					if (rng::randd(0.0, 1.0, false) > .50) {
-
 						//std::cout << "\"top level\" title fight" << std::endl;
-
 
 						//So fight time will be between 3-4 months
 						FightMake(&Fighters[i][j], &Fighters[i][k], rng::randd(3.0, 4.0, false));
-
-
 					}
-
 				}
 
 				continue;
-
 			}
 
-			//if fighter is a prospect; find "can"
-			if (Fighters[i][j].GetProspect()) {
+			//if fighter is a prospect; find "can" & make sure not champ
+			if (Fighters[i][j].GetProspect() && !Fighters[i][j].GetChamp()) {
 
 				//if fighter overall isnt about 20; find any low level opponent
 				if (Fighters[i][j].overall < 20) {
-
 					for (int k = NUMFIGHTERS - 1; k >= 0; k--) {
-
 						//test if fighter already has fight scheduled and skip
 						if (Fighters[i][k].GetHasFight()) continue;
 
 						//test if figher is waiting
 						if (Fighters[i][k].GetWait()) continue;
 
-						//make sure fighter isnt a prospect and doesn't have a fight scheduled
-						if (!Fighters[i][k].GetProspect() && !Fighters[i][k].GetHasFight()) {
+						//make sure can isnt somehow champ
+						if (Fighters[i][k].GetChamp()) continue;
 
+						//test if fighter is themselves
+						if (Fighters[i][j].isEqual(Fighters[i][k])) continue;
+
+						//make sure fighter isnt a prospect and doesn't have a fight scheduled
+						if (!Fighters[i][k].GetProspect()) {
 							//std::cout << "Prospect fight" << std::endl;
 
 							//Fight time for prospects seems to be lower than most
@@ -359,35 +331,28 @@ void Roster::FightFinder()
 							FightMake(&Fighters[i][j], &Fighters[i][k], rng::randd(1.0, 2.0, false));
 
 							break;
-
 						}
-
 					}
-
 				}
 
 				float ovrDif = rng::randd(8.0, 12.0, false);
 
 				//Find fight for prospect will ~random overall difference
 				for (int k = 0; k < NUMFIGHTERS; k++) {
-
 					//Prospect will have 85% chance of taking fight
 					if ((Fighters[i][j].overall > (Fighters[i][k].overall + ovrDif)) && !Fighters[i][k].GetHasFight() && !Fighters[i][k].GetWait() && rng::randd(0.0, 1.0, false) < .85) {
-
 						//std::cout << "Prospect fight" << std::endl;
+
+						//test if fighter is themselves
+						if (Fighters[i][j].isEqual(Fighters[i][k])) continue;
 
 						//Fight time for prospects seems to be lower than most
 						//So fight time will be between 1-2 months
 						FightMake(&Fighters[i][j], &Fighters[i][k], rng::randd(1.0, 2.0, false));
 
 						break;
-
 					}
-
 				}
-
-				continue;
-
 			}
 
 			//Fighters with high success close to retirement will look for easier "money fights"
@@ -395,12 +360,13 @@ void Roster::FightFinder()
 
 				//Find fighter with high popularity and lower overall
 				for (int k = 0; k < NUMFIGHTERS; k++) {
-
 					float ovrDif = rng::randd(5.0, 10.0, false);
 
 					//Popularity cutoff is 80; Overall difference must be >5
 					//Fighter has a good chance of taking this fight as it will be very profitable (90%)
 					if (Fighters[i][k].GetAttribute(3, false, 0) > 80 && (Fighters[i][j].overall - ovrDif) >= Fighters[i][k].overall && rng::randd(0.0, 1.0, false) < .90 && !Fighters[i][k].GetHasFight() && !Fighters[i][k].GetWait()) {
+						//test if fighter is themselves
+						if (Fighters[i][j].isEqual(Fighters[i][k])) continue;
 
 						//std::cout << "Late career money fight" << std::endl;
 
@@ -408,13 +374,8 @@ void Roster::FightFinder()
 						FightMake(&Fighters[i][j], &Fighters[i][k], rng::randd(3.0, 6.0, false));
 
 						break;
-
 					}
-
 				}
-
-				continue;
-
 			}
 
 			//Top level fighters will attempt to find fights close in ovr(+-10)
@@ -423,62 +384,49 @@ void Roster::FightFinder()
 			if (Fighters[i][j].overall > 60 && !Fighters[i][j].GetHasFight() && !Fighters[i][j].GetWait()) {
 
 				for (int k = 0; k < NUMFIGHTERS; k++) {
-
 					if (Fighters[i][j].isEqual(Fighters[i][k])) continue;
 
 					//50% chance for fight to make
-					if ((Fighters[i][j].overall - Fighters[i][k].overall < rng::randd(8.0, 12.0, false) || Fighters[i][k].overall - Fighters[i][j].overall < rng::randd(8.0, 12.0, false)) && !Fighters[i][k].GetHasFight() && !Fighters[i][k].GetWait() && rng::randd(0.0,1.0,false) > .5) {
+					if ((Fighters[i][j].overall - Fighters[i][k].overall < rng::randd(8.0, 12.0, false) || Fighters[i][k].overall - Fighters[i][j].overall < rng::randd(8.0, 12.0, false)) && !Fighters[i][k].GetHasFight() && !Fighters[i][k].GetWait() && rng::randd(0.0, 1.0, false) > .5) {
+						//test if fighter is themselves
+						if (Fighters[i][j].isEqual(Fighters[i][k])) continue;
 
-						//std::cout << "Top Level Fight" << std::endl;
+						std::cout << "Top Level Fight" << std::endl;
 
 						//Big name fights like this will have a longer build up time than most
 						FightMake(&Fighters[i][j], &Fighters[i][k], rng::randd(3.0, 6.0, false));
 
 						break;
-
 					}
-
 				}
-
-				continue;
-
 			}
 
 			//All other fighters will match up evenly and have a pretty short time to fight
 			//and a high chance of acceptence
 			if (!Fighters[i][j].GetHasFight() && !Fighters[i][j].GetWait()) {
+				Fighters[i][j].GetName();
 
 				for (int k = 0; k < NUMFIGHTERS; k++) {
-
 					if (Fighters[i][j].isEqual(Fighters[i][k])) continue;
 
 					//50% chance for fight to make
 					if ((Fighters[i][j].overall - Fighters[i][k].overall < rng::randd(8.0, 12.0, false) || Fighters[i][k].overall - Fighters[i][j].overall < rng::randd(8.0, 12.0, false)) && !Fighters[i][k].GetHasFight() && !Fighters[i][k].GetWait() && rng::randd(0.0, 1.0, false) < .7) {
-
-						//std::cout << "Mid-Low Level Fight" << std::endl;
+						std::cout << "Mid-Low Level Fight" << std::endl;
 
 						//Mid-low level fights will have quick camps
 						FightMake(&Fighters[i][j], &Fighters[i][k], rng::randd(2.0, 4.0, false));
 
 						break;
-
 					}
-
-				}
-
-				continue;
-
+				} 
 			}
-			
+
 		}
-
 	}
-
 }
 
 void Roster::FightMake(Fighter* f1, Fighter* f2, int wait)
 {
-
 	//std::cout << wait << "    " << current << std::endl;
 
 	f1->SetHasFight(true);
@@ -499,9 +447,7 @@ void Roster::PercentFight()
 	for (int i = 0; i < size; i++) sum[i] = 0;
 
 	for (int i = 0; i < size; i++) {
-
 		for (int j = 0; j < NUMFIGHTERS; j++) {
-
 			if (Fighters[i][j].GetHasFight()) {
 				sum[i]++;
 				sumsum++;
@@ -512,10 +458,8 @@ void Roster::PercentFight()
 	float percentTot = float(sumsum) / (size * NUMFIGHTERS);
 
 	std::cout << "% of roster that has fight: " << percentTot << std::endl;
-
 }
 
 Roster::~Roster()
 {
-
 }
